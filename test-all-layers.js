@@ -18,7 +18,6 @@ try {
     --json \
     --output semgrep-results.json \
     --exclude "*.json" \
-    --exclude "test-*.js" \
     --exclude "codeguard/" \
     --exclude "*.snap" \
     --exclude "*.test.ts" \
@@ -116,7 +115,13 @@ try {
   const bearer = JSON.parse(
     fs.readFileSync('bearer-results.json', 'utf8')
   )
-  console.log(`Bearer findings: ${bearer?.length || 0}`)
+  const bearerCount =
+  bearer?.findings?.length ||
+  bearer?.high?.length ||
+  bearer?.critical?.length ||
+  (Array.isArray(bearer) ? bearer.length : 0) ||
+  0
+  console.log(`Bearer findings: ${bearerCount}`)
 } catch(e) {}
 
 try {

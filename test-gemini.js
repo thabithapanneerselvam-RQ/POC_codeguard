@@ -3,7 +3,7 @@
 
 const https = require('https')
 
-const GEMINI_KEY = 'AIzaSyDkSQXivx5Ziu749KdR-1nlTlEAwq8pO-s'
+const GEMINI_KEY = 'AIzaSyBYR0xfnLCVgpkV_VH24vHQBAQDxrEsecA'
 
 const prompt = `
 You are a security expert.
