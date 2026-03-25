@@ -1,7 +1,3 @@
-// test-all-layers.js
-// Runs all layers locally
-// Simulates what ADO pipeline does
-
 const { execSync } = require('child_process')
 const fs = require('fs')
 
@@ -88,15 +84,20 @@ console.log('✅ OSV scan complete\n')
 console.log('Running Layer 3: Gitleaks...')
 try {
   execSync(
-    'gitleaks detect --source . --report-format json --report-path gitleaks-results.json --exit-code 0',
-    { stdio: 'pipe' }
-  )
+  'gitleaks detect \
+  --source src/ \
+  --no-git \
+  --report-format json \
+  --report-path gitleaks-results.json \
+  --exit-code 0',
+  { stdio: 'pipe' }
+)
   const results = JSON.parse(
     fs.readFileSync('gitleaks-results.json', 'utf8')
   )
   console.log(`✅ Gitleaks: ${results?.length || 0} secrets found\n`)
 } catch(e) {
-  console.log('⚠️  Gitleaks error')
+  console.log('⚠️  Gitleaks error', e.message)
 }
 
 // SUMMARY
@@ -112,17 +113,14 @@ try {
 } catch(e) {}
 
 try {
-  const bearer = JSON.parse(
-    fs.readFileSync('bearer-results.json', 'utf8')
-  )
-  const bearerCount =
-  bearer?.findings?.length ||
-  bearer?.high?.length ||
-  bearer?.critical?.length ||
-  (Array.isArray(bearer) ? bearer.length : 0) ||
-  0
-  console.log(`Bearer findings: ${bearerCount}`)
-} catch(e) {}
+  const bearer = JSON.parse(fs.readFileSync('bearer-results.json', 'utf8'))
+const bearerCount =
+  (bearer?.critical?.length || 0) +
+  (bearer?.high?.length     || 0) +
+  (bearer?.medium?.length   || 0) +
+  (bearer?.low?.length      || 0)
+console.log(`Bearer findings: ${bearerCount}`)
+  } catch(e) {}
 
 try {
   const osv = JSON.parse(
