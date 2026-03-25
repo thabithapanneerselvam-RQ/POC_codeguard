@@ -1,0 +1,11 @@
+{
+  "name": "vulnerable-test-app",
+  "version": "1.0.0",
+  "description": "Intentionally vulnerable app for CodeGuard testing",
+  "dependencies": {
+    "express"  : "4.17.1",
+    "mysql"    : "2.18.1",
+    "lodash"   : "4.17.15",
+    "minimist" : "1.2.5"
+  }
+}

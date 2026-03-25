@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "check_id": "javascript.express.security.audit.xss.direct-response-write",
+      "path": "src/routes/search.js",
+      "start": { "line": 12 },
+      "extra": {
+        "severity": "HIGH",
+        "message": "User-controlled data is directly written into the HTTP response without sanitization, enabling reflected XSS.",
+        "lines": "res.send('<h1>' + query + '</h1>')"
+      }
+    },
+    {
+      "check_id": "javascript.sequelize.security.audit.sequelize-injection",
+      "path": "src/routes/user.js",
+      "start": { "line": 8 },
+      "extra": {
+        "severity": "ERROR",
+        "message": "Unsanitized user input is concatenated directly into a SQL query string.",
+        "lines": "db.query(\"SELECT * FROM users WHERE id = \" + req.query.id)"
+      }
+    },
+    {
+      "check_id": "javascript.node.security.audit.child-process-injection",
+      "path": "src/routes/run.js",
+      "start": { "line": 6 },
+      "extra": {
+        "severity": "ERROR",
+        "message": "User-controlled input passed directly to exec() enables remote command execution.",
+        "lines": "exec(req.query.cmd, callback)"
+      }
+    }
+  ]
+}

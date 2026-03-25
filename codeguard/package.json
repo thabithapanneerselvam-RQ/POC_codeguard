@@ -1,0 +1,18 @@
+{
+  "name": "codeguard",
+  "version": "1.0.0",
+  "description": "Multi-tool SAST pipeline with Gemini AI validation",
+  "main": "src/pipeline.js",
+  "scripts": {
+    "scan:osv"    : "node scripts/osv-scan.js",
+    "scan:all"    : "npm run scan:osv",
+    "pipeline"    : "node src/pipeline.js",
+    "codeguard"   : "npm run scan:all && npm run pipeline"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT"
+}

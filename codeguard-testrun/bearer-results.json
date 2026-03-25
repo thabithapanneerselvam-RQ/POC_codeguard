@@ -1,0 +1,35 @@
+{
+  "critical": [],
+  "high": [
+    {
+      "id": "javascript_lang_sql_injection",
+      "full_filename": "src/routes/user.js",
+      "line_number": 8,
+      "severity": "high",
+      "title": "SQL Injection via string concatenation",
+      "description": "User input is directly concatenated into a SQL query without parameterization.",
+      "code_extract": "db.query(\"SELECT * FROM users WHERE id = \" + req.query.id)"
+    },
+    {
+      "id": "javascript_lang_path_traversal",
+      "full_filename": "src/routes/files.js",
+      "line_number": 14,
+      "severity": "high",
+      "title": "Path traversal — unsanitized file path from user input",
+      "description": "req.query.file is passed directly to fs.readFile without path normalization.",
+      "code_extract": "fs.readFile(req.query.file, 'utf8', callback)"
+    }
+  ],
+  "medium": [
+    {
+      "id": "javascript_lang_hardcoded_secret",
+      "full_filename": "src/config/db.js",
+      "line_number": 5,
+      "severity": "medium",
+      "title": "Hardcoded database password",
+      "description": "A password is hardcoded in the source file.",
+      "code_extract": "password: 'SuperSecretPassword123'"
+    }
+  ],
+  "low": []
+}

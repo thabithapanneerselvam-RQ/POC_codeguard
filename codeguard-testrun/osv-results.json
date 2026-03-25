@@ -1,0 +1,29 @@
+[
+  {
+    "tool": "OSV",
+    "package": "lodash",
+    "version": "4.17.15",
+    "vulnId": "CVE-2021-23337",
+    "severity": "HIGH",
+    "summary": "Command injection in lodash template function via sourceURL parameter",
+    "fixedIn": "4.17.21"
+  },
+  {
+    "tool": "OSV",
+    "package": "minimist",
+    "version": "1.2.5",
+    "vulnId": "CVE-2021-44906",
+    "severity": "CRITICAL",
+    "summary": "Prototype pollution in minimist before 1.2.6",
+    "fixedIn": "1.2.6"
+  },
+  {
+    "tool": "OSV",
+    "package": "express",
+    "version": "4.17.1",
+    "vulnId": "CVE-2022-24999",
+    "severity": "HIGH",
+    "summary": "Open redirect vulnerability in express when mounted on a path with a trailing slash",
+    "fixedIn": "4.18.2"
+  }
+]

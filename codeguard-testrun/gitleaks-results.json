@@ -1,0 +1,18 @@
+[
+  {
+    "File": "src/config/keys.js",
+    "StartLine": 3,
+    "RuleID": "generic-api-key",
+    "Match": "sk_test_123456789abcdefghijklmnop",
+    "Secret": "sk_test_123456789abcdefghijklmnop",
+    "Description": "Generic API Key"
+  },
+  {
+    "File": ".env.bak",
+    "StartLine": 7,
+    "RuleID": "aws-access-token",
+    "Match": "AKIAIOSFODNN7EXAMPLE",
+    "Secret": "AKIAIOSFODNN7EXAMPLE",
+    "Description": "AWS Access Token detected in backup env file"
+  }
+]
