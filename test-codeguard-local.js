@@ -995,7 +995,7 @@ function generateSARIFReport(results) {
                     uriBaseId: '%SRCROOT%'
                   },
                   region: {
-                    startLine: r.finding.line
+                    startLine: Math.max(1, r.finding.line || 1)
                   }
                 }
               }

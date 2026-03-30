@@ -9,6 +9,10 @@ on:
 jobs:
   codeguard:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
 
     steps:
       # ── 1. Checkout code ──
@@ -62,7 +66,7 @@ jobs:
 
       # ── 10. Upload SARIF to GitHub Security tab ──
       - name: Upload SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: codeguard-report.sarif
