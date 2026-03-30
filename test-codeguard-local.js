@@ -1011,7 +1011,7 @@ function generateSARIFReport(results) {
                     },
                     replacements: [
                       {
-                        deletedRegion: { startLine: r.finding.line },
+                        deletedRegion: { startLine: Math.max(1, r.finding.line || 1) },
                         insertedContent: { text: r.gemini.fix?.after || '' }
                       }
                     ]
