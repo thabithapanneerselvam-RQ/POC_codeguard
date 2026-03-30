@@ -1,134 +1,129 @@
-const express = require("express");
-const { exec } = require("child_process");
-const fs = require("fs");
-const mysql = require("mysql");
+// Vulnerability test scenarios for CodeGuard POC
+// Scenarios:
+//   1. Hardcoded Secrets         (Gitleaks + Bearer)
+//   2. SQL Injection              (Semgrep + Bearer)
+//   3. Command Injection          (Semgrep + Bearer)
+//   4. XSS                        (Semgrep + Bearer)
+//   5. Path Traversal             (Bearer)
+//   6. Sensitive Data Exposure    (Semgrep + Bearer)
+//   7. JWT Vulnerabilities        (Semgrep + Bearer + Gitleaks)
+//   8. NoSQL Injection            (Semgrep + Bearer)
+//   9. SSRF                       (Semgrep + Bearer)
+//  10. Timing Attack              (Bearer)
+//  11. No Password Hashing        (Semgrep)
+//  12. JWT No Expiry              (Semgrep)
+
+const express = require('express')
+const { exec } = require('child_process')
+const fs = require('fs')
+const mysql = require('mysql')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const mongoose = require('mongoose')
 
-const app = express();
+const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 /* =========================
-   GITLEAKS SECRET
+   SCENARIO 1: HARDCODED SECRETS
+   Caught by: Gitleaks + Bearer
 ========================= */
+
+const API_KEY     = 'sk_test_123456789abcdef'
+const DB_PASSWORD = 'SuperSecretPassword123'
+const JWT_SECRET  = 'mysecretkey123'
 
 /* =========================
-   HARDCODED CREDENTIAL
-========================= */
-const API_KEY = "sk_test_123456789abcdef";
-const DB_PASSWORD = "SuperSecretPassword123";
-
-/* =========================
-   SQL INJECTION
-   (Semgrep + Bearer)
+   SCENARIO 2: SQL INJECTION
+   Caught by: Semgrep + Bearer
 ========================= */
 
-app.get("/user", (req, res) => {
-  const id = req.query.id;
-
-  const query = "SELECT * FROM users WHERE id = " + id;
+app.get('/user', (req, res) => {
+  const id = req.query.id
+  const query = 'SELECT * FROM users WHERE id = ' + id
 
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
+    host: 'localhost',
+    user: 'root',
     password: DB_PASSWORD,
-    database: "users"
-  });
+    database: 'users'
+  })
 
   db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-      return;
-    }
-
-    res.send(result);
-  });
-});
+    if (err) { res.send(err); return }
+    res.send(result)
+  })
+})
 
 /* =========================
-   COMMAND INJECTION
-   (Semgrep + Bearer)
+   SCENARIO 3: COMMAND INJECTION
+   Caught by: Semgrep + Bearer
 ========================= */
 
-app.get("/run", (req, res) => {
-  const command = req.query.cmd;
+app.get('/run', (req, res) => {
+  const command = req.query.cmd
 
   exec(command, (err, stdout) => {
-    if (err) {
-      res.send(err);
-      return;
-    }
-
-    res.send(stdout);
-  });
-});
+    if (err) { res.send(err); return }
+    res.send(stdout)
+  })
+})
 
 /* =========================
-   XSS VULNERABILITY
-   (Semgrep + Bearer)
+   SCENARIO 4: XSS
+   (Cross-Site Scripting)
+   Caught by: Semgrep + Bearer
 ========================= */
 
-app.get("/search", (req, res) => {
-  const query = req.query.q;
-
-  res.send("<h1>" + query + "</h1>");
-});
+app.get('/search', (req, res) => {
+  const query = req.query.q
+  res.send('<h1>' + query + '</h1>')
+})
 
 /* =========================
-   PATH TRAVERSAL
-   (Bearer)
+   SCENARIO 5: PATH TRAVERSAL
+   Caught by: Bearer
 ========================= */
 
-app.get("/read", (req, res) => {
-  const file = req.query.file;
+app.get('/read', (req, res) => {
+  const file = req.query.file
 
-  fs.readFile(file, "utf8", (err, data) => {
-    if (err) {
-      res.send(err);
-      return;
-    }
-
-    res.send(data);
-  });
-});
+  fs.readFile(file, 'utf8', (err, data) => {
+    if (err) { res.send(err); return }
+    res.send(data)
+  })
+})
 
 /* =========================
-   SENSITIVE DATA EXPOSURE
+   SCENARIO 6: SENSITIVE DATA EXPOSURE
+   Caught by: Semgrep + Bearer
 ========================= */
 
-app.get("/config", (req, res) => {
+app.get('/config', (req, res) => {
   res.json({
     apiKey: API_KEY,
     password: DB_PASSWORD
-  });
-});
-
-app.listen(3000, () => {
-  console.log("Test vulnerable app running on port 3000");
-});
-
-
+  })
+})
 
 /* =========================
-   SCENARIO 1: JWT VULNERABILITIES
+   SCENARIO 7: JWT VULNERABILITIES
+   Caught by: Semgrep + Bearer + Gitleaks
 ========================= */
 
-// VULN 1: Weak JWT secret hardcoded
-const JWT_SECRET = 'mysecretkey123'
-
-// VULN 2: Signing with weak secret
+// VULN 1: Signing with weak hardcoded secret + no expiry
 app.post('/login', (req, res) => {
   const { username } = req.body
   const token = jwt.sign(
     { userId: 1, username },
     'secret'
+    // no expiresIn ← vulnerable
   )
   res.json({ token })
 })
 
-// VULN 3: Verifying with algorithm none allowed
+// VULN 2: Verifying with algorithm none allowed
 app.get('/profile', (req, res) => {
   const token = req.headers.authorization
   const decoded = jwt.verify(token, '', {
@@ -137,11 +132,19 @@ app.get('/profile', (req, res) => {
   res.json(decoded)
 })
 
+// VULN 3: Insecure token verification — uses hardcoded JWT_SECRET
+app.get('/me', (req, res) => {
+  const token = req.headers.authorization
+  const decoded = jwt.verify(token, JWT_SECRET)
+  res.json(decoded)
+})
+
 /* =========================
-   SCENARIO 2: NOSQL INJECTION
+   SCENARIO 8: NOSQL INJECTION
+   Caught by: Semgrep + Bearer
 ========================= */
 
-// VULN: User input directly in MongoDB query
+// VULN 1: User input directly in MongoDB query
 app.post('/user/login', (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -158,7 +161,7 @@ app.post('/user/login', (req, res) => {
   })
 })
 
-// VULN: Direct query object from user
+// VULN 2: Direct query object from user input
 app.get('/users/search', (req, res) => {
   const filter = req.query.filter
   mongoose.model('User').find(
@@ -167,18 +170,19 @@ app.get('/users/search', (req, res) => {
 })
 
 /* =========================
-   SCENARIO 4: SSRF
+   SCENARIO 9: SSRF
    (Server Side Request Forgery)
+   Caught by: Semgrep + Bearer
 ========================= */
 
-// VULN: Fetching user controlled URL
+// VULN 1: Fetching user controlled URL
 app.get('/fetch', async (req, res) => {
   const url = req.query.url
   const response = await axios.get(url)
   res.send(response.data)
 })
 
-// VULN: Webhook with user controlled URL
+// VULN 2: Webhook with user controlled URL
 app.post('/webhook', async (req, res) => {
   const webhookUrl = req.body.url
   await axios.post(webhookUrl, {
@@ -189,9 +193,10 @@ app.post('/webhook', async (req, res) => {
 
 /* =========================
    SCENARIO 10: TIMING ATTACK
+   Caught by: Bearer
 ========================= */
 
-// VULN: Direct string comparison for password
+// VULN 1: Direct string comparison for token
 app.post('/verify', (req, res) => {
   const token = req.body.token
   const storedToken = process.env.API_TOKEN
@@ -203,7 +208,7 @@ app.post('/verify', (req, res) => {
   }
 })
 
-// VULN: Direct comparison for API key
+// VULN 2: Direct comparison for API key
 app.post('/api/authenticate', (req, res) => {
   const providedKey = req.headers['x-api-key']
   const validKey = process.env.API_KEY
@@ -215,6 +220,28 @@ app.post('/api/authenticate', (req, res) => {
   }
 })
 
+/* =========================
+   SCENARIO 11: NO PASSWORD HASHING
+   Caught by: Semgrep
+========================= */
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body
+  // password stored as plaintext — no hashing
+  const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: DB_PASSWORD,
+    database: 'users'
+  })
+  db.query(
+    `INSERT INTO users VALUES ('${username}', '${password}')`
+  )
+  res.json({ created: true })
+})
+
 app.listen(3000, () => {
   console.log('Test scenarios app running on port 3000')
 })
+
+

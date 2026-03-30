@@ -50,7 +50,7 @@ try {
     bearerData?.findings?.length ||
     bearerData?.high?.length ||
     bearerData?.critical?.length ||
-    (Array.isArray(bearerData) ? bearerData.length : 0) ||
+    // (Array.isArray(bearerData) ? bearerData.length : 0) ||
     0
 
   console.log(`✅ Bearer: ${count} findings\n`)
@@ -89,7 +89,7 @@ try {
   --no-git \
   --report-format json \
   --report-path gitleaks-results.json \
-  --exit-code 0',
+  --exit-code 0 || true',
   { stdio: 'pipe' }
 )
   const results = JSON.parse(

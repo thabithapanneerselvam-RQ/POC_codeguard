@@ -1,32 +1,12 @@
 [
  {
-  "RuleID": "generic-api-key",
-  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
-  "StartLine": 14,
-  "EndLine": 14,
-  "StartColumn": 11,
-  "EndColumn": 40,
-  "Match": "API_KEY = \"sk-abc123secretkey\"",
-  "Secret": "sk-abc123secretkey",
-  "File": "src/test-vuln.js",
-  "SymlinkFile": "",
-  "Commit": "",
-  "Entropy": 3.5724313,
-  "Author": "",
-  "Email": "",
-  "Date": "",
-  "Message": "",
-  "Tags": [],
-  "Fingerprint": "src/test-vuln.js:generic-api-key:14"
- },
- {
   "RuleID": "stripe-access-token",
   "Description": "Found a Stripe Access Token, posing a risk to payment processing services and sensitive financial data.",
-  "StartLine": 20,
-  "EndLine": 20,
-  "StartColumn": 19,
-  "EndColumn": 42,
-  "Match": "sk_test_123456789abcdef\"",
+  "StartLine": 33,
+  "EndLine": 33,
+  "StartColumn": 23,
+  "EndColumn": 46,
+  "Match": "sk_test_123456789abcdef'",
   "Secret": "sk_test_123456789abcdef",
   "File": "src/test-vuln-2.js",
   "SymlinkFile": "",
@@ -37,6 +17,6 @@
   "Date": "",
   "Message": "",
   "Tags": [],
-  "Fingerprint": "src/test-vuln-2.js:stripe-access-token:20"
+  "Fingerprint": "src/test-vuln-2.js:stripe-access-token:33"
  }
 ]

@@ -4,7 +4,7 @@ function findUser(input, res) {
   const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: process.env.DB_PASSWORD,
     database: 'users'
   })
 

