@@ -13,11 +13,11 @@ jobs:
     steps:
       # ── 1. Checkout code ──
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # ── 2. Setup Node ──
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -54,7 +54,7 @@ jobs:
 
       # ── 9. Upload JSON report as artifact ──
       - name: Upload JSON Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: codeguard-report-json
@@ -62,7 +62,7 @@ jobs:
 
       # ── 10. Upload SARIF to GitHub Security tab ──
       - name: Upload SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: codeguard-report.sarif
