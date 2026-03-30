@@ -1,0 +1,68 @@
+name: CodeGuard Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  codeguard:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout code ──
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # ── 2. Setup Node ──
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # ── 3. Install dependencies ──
+      - name: Install dependencies
+        run: npm install
+
+      # ── 4. Install Semgrep ──
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      # ── 5. Install Bearer ──
+      - name: Install Bearer
+        run: |
+          curl -sfL https://raw.githubusercontent.com/Bearer/bearer/main/contrib/install.sh | sh
+          sudo mv ./bin/bearer /usr/local/bin/bearer
+
+      # ── 6. Install Gitleaks ──
+      - name: Install Gitleaks
+        run: |
+          wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz
+          tar -xzf gitleaks_8.18.0_linux_x64.tar.gz
+          sudo mv gitleaks /usr/local/bin/gitleaks
+
+      # ── 7. Run all scan layers ──
+      - name: Run CodeGuard Scan Layers
+        run: node test-all-layers.js
+
+      # ── 8. Run CodeGuard AI Analysis ──
+      - name: Run CodeGuard AI Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node test-codeguard-local.js
+
+      # ── 9. Upload JSON report as artifact ──
+      - name: Upload JSON Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: codeguard-report-json
+          path: codeguard-report.json
+
+      # ── 10. Upload SARIF to GitHub Security tab ──
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: codeguard-report.sarif
