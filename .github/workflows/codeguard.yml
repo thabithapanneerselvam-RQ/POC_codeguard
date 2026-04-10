@@ -69,4 +69,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
-          sarif_file: codeguard-report.sarif
+          sarif_file: codeguard-report.sarif1
