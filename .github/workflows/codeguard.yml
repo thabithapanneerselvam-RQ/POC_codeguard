@@ -13,6 +13,7 @@ jobs:
       contents: read
       actions: read
       security-events: write
+      pull_request: write
 
     steps:
       # ── 1. Checkout code ──
@@ -70,3 +71,18 @@ jobs:
         if: always()
         with:
           sarif_file: codeguard-report.sarif1
+
+      # ── 11. Get PR number ──
+      - name: Get PR Number
+        if: github.event_name == 'pull_request'
+        run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+
+      # ── 12. Post PR Comments ──
+      - name: Post PR Comments
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+        run: node post-pr-comments.js
