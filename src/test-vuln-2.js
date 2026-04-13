@@ -243,6 +243,3 @@ app.post('/register', (req, res) => {
 app.listen(3000, () => {
   console.log('Test scenarios app running on port 3000')
 })
-
-
-// test change
