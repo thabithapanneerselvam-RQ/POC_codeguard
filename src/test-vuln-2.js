@@ -21,7 +21,10 @@ const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const mongoose = require('mongoose')
 
+const helmet = require('helmet'); // Add this line at the top of your file
 const app = express()
+app.disable('x-powered-by') // Disable the X-Powered-By header
+app.use(helmet()) // Use Helmet middleware to set security headers
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -41,7 +44,7 @@ const JWT_SECRET  = 'mysecretkey123'
 
 app.get('/user', (req, res) => {
   const id = req.query.id
-  const query = 'SELECT * FROM users WHERE id = ' + id
+  const query = 'SELECT * FROM users WHERE id = ?'
 
   const db = mysql.createConnection({
     host: 'localhost',
@@ -50,7 +53,7 @@ app.get('/user', (req, res) => {
     database: 'users'
   })
 
-  db.query(query, (err, result) => {
+  db.query(query, [id], (err, result) => {
     if (err) { res.send(err); return }
     res.send(result)
   })
@@ -76,10 +79,12 @@ app.get('/run', (req, res) => {
    Caught by: Semgrep + Bearer
 ========================= */
 
+const { escapeHtml } = require('escape-goat'); // Example: Use a trusted HTML escaping library
+
 app.get('/search', (req, res) => {
-  const query = req.query.q
-  res.send('<h1>' + query + '</h1>')
-})
+  const query = req.query.q;
+  res.send('<h1>' + escapeHtml(query) + '</h1>');
+});
 
 /* =========================
    SCENARIO 5: PATH TRAVERSAL
@@ -117,8 +122,8 @@ app.post('/login', (req, res) => {
   const { username } = req.body
   const token = jwt.sign(
     { userId: 1, username },
-    'secret'
-    // no expiresIn ← vulnerable
+    process.env.JWT_SECRET // Use an environment variable for the secret
+    // Recommended: add an 'expiresIn' option for token expiration
   )
   res.json({ token })
 })
@@ -126,8 +131,10 @@ app.post('/login', (req, res) => {
 // VULN 2: Verifying with algorithm none allowed
 app.get('/profile', (req, res) => {
   const token = req.headers.authorization
-  const decoded = jwt.verify(token, '', {
-    algorithms: ['none']
+  // Ensure a strong, secret key is used from environment variables.
+  // Do not allow 'none' and specify the actual algorithm(s) used for signing.
+  const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+    algorithms: ['HS256'] // Example: Use HS256 or RS256, but never 'none'.
   })
   res.json(decoded)
 })
@@ -135,7 +142,9 @@ app.get('/profile', (req, res) => {
 // VULN 3: Insecure token verification — uses hardcoded JWT_SECRET
 app.get('/me', (req, res) => {
   const token = req.headers.authorization
-  const decoded = jwt.verify(token, JWT_SECRET)
+  // Load the JWT secret from a secure source, such as an environment variable.
+  // Replace 'JWT_SECRET' with a variable like process.env.JWT_SECRET
+  const decoded = jwt.verify(token, process.env.JWT_SECRET)
   res.json(decoded)
 })
 
@@ -197,16 +206,29 @@ app.post('/webhook', async (req, res) => {
 ========================= */
 
 // VULN 1: Direct string comparison for token
-app.post('/verify', (req, res) => {
-  const token = req.body.token
-  const storedToken = process.env.API_TOKEN
+const crypto = require('crypto');
 
-  if (token === storedToken) {
-    res.json({ valid: true })
-  } else {
-    res.json({ valid: false })
+app.post('/verify', (req, res) => {
+  const token = req.body.token;
+  const storedToken = process.env.API_TOKEN;
+
+  // Ensure both token and storedToken are strings before creating buffers.
+  // If not, treat as invalid to prevent Buffer.from errors and potential timing differences
+  // from error handling.
+  if (typeof token !== 'string' || typeof storedToken !== 'string') {
+    return res.json({ valid: false });
   }
-})
+
+  const tokenBuffer = Buffer.from(token);
+  const storedTokenBuffer = Buffer.from(storedToken);
+
+  // Use crypto.timingSafeEqual for constant-time comparison to prevent timing attacks.
+  if (crypto.timingSafeEqual(tokenBuffer, storedTokenBuffer)) {
+    res.json({ valid: true });
+  } else {
+    res.json({ valid: false });
+  }
+});
 
 // VULN 2: Direct comparison for API key
 app.post('/api/authenticate', (req, res) => {

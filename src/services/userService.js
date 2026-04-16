@@ -11,7 +11,7 @@ function findUser(input, res) {
   // input came from req.query.id
   // 3 files away!
   db.query(
-    "SELECT * FROM users WHERE id = " + input
+    "SELECT * FROM users WHERE id = ?", [input]
   )
 }
 
