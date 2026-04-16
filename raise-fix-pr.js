@@ -65,11 +65,11 @@ async function main() {
     return
   }
 
-  const report = JSON.parse(fs.readFileSync('codeguard-report.json', 'utf8'))
+  const report  = JSON.parse(fs.readFileSync('codeguard-report.json', 'utf8'))
   const fixable = report.vulnerabilities.filter(v =>
     v.fix.autoFixable &&
-    v.fix.before &&
-    v.fix.after &&
+    v.fix.before      &&
+    v.fix.after       &&
     v.file !== 'package.json'
   )
 
@@ -93,7 +93,7 @@ async function main() {
   const baseSHA = refRes.body.object.sha
   console.log(`Base SHA: ${baseSHA}\n`)
 
-  // 3. Fetch each file and apply fixes
+  // 3. Fetch each file from GitHub and collect fixes
   const fileFixMap = {}
 
   for (const vuln of fixable) {
@@ -192,8 +192,20 @@ async function main() {
     process.exit(1)
   }
 
-  // 7. Create fix branch
-  const fixBranch = `codeguard/fix-pr-${PR_NUMBER}`
+  // 7. Create fix branch — delete first if it already exists from a previous run
+  const fixBranch     = `codeguard/fix-pr-${PR_NUMBER}`
+  const existingBranch = await githubRequest(
+    'GET',
+    `/repos/${OWNER}/${REPO_NAME}/git/refs/heads/${fixBranch}`
+  )
+  if (existingBranch.status === 200) {
+    console.log(`Branch ${fixBranch} already exists — deleting and recreating`)
+    await githubRequest(
+      'DELETE',
+      `/repos/${OWNER}/${REPO_NAME}/git/refs/heads/${fixBranch}`
+    )
+  }
+
   const branchRes = await githubRequest(
     'POST',
     `/repos/${OWNER}/${REPO_NAME}/git/refs`,
@@ -205,7 +217,26 @@ async function main() {
   }
   console.log(`\n✅ Branch created: ${fixBranch}`)
 
-  // 8. Raise PR
+  // 8. Check if fix PR already exists — reuse it if so
+  const existingPRs = await githubRequest(
+    'GET',
+    `/repos/${OWNER}/${REPO_NAME}/pulls?head=${OWNER}:${fixBranch}&state=open`
+  )
+  if (existingPRs.status === 200 && existingPRs.body.length > 0) {
+    const existingPR = existingPRs.body[0]
+    console.log(`Fix PR already exists: #${existingPR.number} — ${existingPR.html_url}`)
+    fs.writeFileSync('fix-pr-result.json', JSON.stringify({
+      raised:        true,
+      fixPRNumber:   existingPR.number,
+      fixPRUrl:      existingPR.html_url,
+      fixedCount:    appliedVulnIds.length,
+      fixedVulnIds:  appliedVulnIds,
+      skippedVulnIds
+    }, null, 2))
+    return
+  }
+
+  // 9. Raise new PR
   const fixedSummary = appliedVulnIds.map(id => {
     const v = fixable.find(f => f.id === id)
     return `- \`${id}\` — ${v.severity} \`${v.issueType}\` in \`${v.file}:${v.line}\``
@@ -250,13 +281,13 @@ ${skippedNote}
   const fixPRUrl    = prRes.body.html_url
   console.log(`✅ Fix PR raised: #${fixPRNumber} — ${fixPRUrl}`)
 
-  // 9. Write result for post-pr-comments.js
+  // 10. Write result for post-pr-comments.js to read
   fs.writeFileSync('fix-pr-result.json', JSON.stringify({
-    raised:       true,
+    raised:        true,
     fixPRNumber,
     fixPRUrl,
-    fixedCount:   appliedVulnIds.length,
-    fixedVulnIds: appliedVulnIds,
+    fixedCount:    appliedVulnIds.length,
+    fixedVulnIds:  appliedVulnIds,
     skippedVulnIds
   }, null, 2))
 
