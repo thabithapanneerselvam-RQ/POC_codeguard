@@ -9,8 +9,8 @@ if (!GEMINI_KEY) {
   process.exit(1)
 }
 
-const BATCH_SIZE  = 5      // findings per Gemini call
-const BATCH_DELAY = 60000  // 60 seconds between batches
+const BATCH_SIZE  = 5       // findings per Gemini call
+const BATCH_DELAY = 60000   // 60 seconds between batches
 
 // ─── CONFIDENCE SCORE ─────────────────
 function getConfidenceScore(finding) {
@@ -256,7 +256,7 @@ Include one object per finding (${batch.length} total). Use finding_index 1 to $
 
     const options = {
       hostname: 'generativelanguage.googleapis.com',
-      path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,
+      path: `/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_KEY}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
