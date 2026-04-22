@@ -6,10 +6,12 @@ CodeGuard is an automated security scanning pipeline for Node.js applications. I
 
 
 Developer pushes code / opens PR
+
             │
             ▼
 
 GitHub Actions triggers automatically
+
             │
             ▼
 
@@ -17,6 +19,7 @@ Layer 1 — Semgrep      (pattern-based SAST)
 Layer 2 — Bearer       (data flow analysis)
 Layer 3 — Gitleaks     (secret scanning)
 Layer 3 — OSV Scanner  (dependency CVE scanning)
+
             │
             ▼
 
@@ -27,11 +30,13 @@ Deduplication Engine
 
 Gemini AI Validation
 (confirms real vs false positive, generates fix)
+
             │
             ▼
 
 Auto Fix PR raised
 (auto-fixable vulnerabilities patched automatically)
+
             │
             ▼
 
@@ -43,7 +48,7 @@ PR Comments posted
 
 **1. Clone the repository**
 
-git clone https://github.com/your-org/your-repo.git
+git clone https://github.com/thabithapanneerselvam-RQ/POC_codeguard.git
 cd your-repo
 npm install
 
