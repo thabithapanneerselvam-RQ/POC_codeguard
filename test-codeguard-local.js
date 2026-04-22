@@ -9,8 +9,8 @@ if (!GEMINI_KEY) {
   process.exit(1)
 }
 
-const BATCH_SIZE  = 5      // findings per Gemini call
-const BATCH_DELAY = 60000  // 60 seconds between batches
+const BATCH_SIZE  = 5       // findings per Gemini call
+const BATCH_DELAY = 60000   // 60 seconds between batches
 
 // ─── CONFIDENCE SCORE ─────────────────
 function getConfidenceScore(finding) {
