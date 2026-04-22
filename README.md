@@ -79,18 +79,22 @@ CodeGuard will trigger automatically.
 
 
 
+
 **Output**
 
 **GitHub Security Tab**
 
 All findings appear inline on the vulnerable lines of code under Security → Code scanning alerts.
 
+
 **Auto Fix PR**
+
 A new PR is automatically raised titled:
 
 **🛡️ CodeGuard: Auto-fix N vulnerabilities (from PR #X)**
 
 Review the diff, run your tests, and merge.
+
 
 **PR Comments**
 
@@ -99,11 +103,13 @@ Every vulnerability gets an inline comment on your PR:
    1. Auto-fixed vulnerabilities show → ✅ Fixed in PR #X
    2. Manual fix required → shows before/after code diff with explanation
 
+
 **JSON Report**
 
 Full detailed report downloadable from Actions → your run → Artifacts → codeguard-report-json
 
 {
+
   "tool": "CodeGuard",
   "summary": {
     "total": 24,
@@ -111,10 +117,12 @@ Full detailed report downloadable from Actions → your run → Artifacts → co
     "high": 8,
     "medium": 10,
     "autoFixable": 9
+    
   },
   
   "vulnerabilities": [
     {
+    
       "id": "CG-001",
       "severity": "CRITICAL",
       "file": "src/db.js",
@@ -126,6 +134,7 @@ Full detailed report downloadable from Actions → your run → Artifacts → co
         "after": "...",
         "autoFixable": true
         }
+        
     }
   ]
 }
@@ -155,6 +164,7 @@ Full detailed report downloadable from Actions → your run → Artifacts → co
 ├── codeguard-report.json          # generated — full report
 
 └── codeguard-report.sarif         # generated — GitHub Security format
+
 
 
 **Running Locally**
