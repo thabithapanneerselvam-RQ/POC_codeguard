@@ -11,7 +11,7 @@ jobs:
   codeguard:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       actions: read
       security-events: write
       pull-requests: write
@@ -78,12 +78,23 @@ jobs:
         if: github.event_name == 'pull_request'
         run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
-      # ── 12. Post PR Comments ──
+      # ── 12. Raise Auto-Fix PR ──
+      # Must run BEFORE post-pr-comments so fix-pr-result.json exists
+      - name: Raise Auto-Fix PR
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER:         ${{ env.PR_NUMBER }}
+          SOURCE_BRANCH:     ${{ github.head_ref }}
+        run: node raise-fix-pr.js
+
+      # ── 13. Post PR Comments ──
       - name: Post PR Comments
         if: github.event_name == 'pull_request'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_NUMBER: ${{ env.PR_NUMBER }}
+          GITHUB_SHA:        ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER:         ${{ env.PR_NUMBER }}
         run: node post-pr-comments.js

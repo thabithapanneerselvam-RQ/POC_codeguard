@@ -14,6 +14,19 @@ if (!GITHUB_TOKEN || !REPO || !PR_NUMBER || !COMMIT_SHA) {
 
 const [OWNER, REPO_NAME] = REPO.split('/')
 
+// ─── Load fix PR result ───────────────────────────────────────────────
+let fixPRResult = { raised: false, fixedVulnIds: [] }
+try {
+  if (fs.existsSync('fix-pr-result.json')) {
+    fixPRResult = JSON.parse(fs.readFileSync('fix-pr-result.json', 'utf8'))
+    if (fixPRResult.raised) {
+      console.log(`Fix PR exists: #${fixPRResult.fixPRNumber} — ${fixPRResult.fixedVulnIds.length} vulns fixed`)
+    }
+  }
+} catch(e) {
+  console.log('fix-pr-result.json not found — all comments will show manual fix')
+}
+
 // ─── HELPER: GitHub API request ───────────────────────────────────────
 function githubRequest(method, path, body) {
   return new Promise((resolve, reject) => {
@@ -86,10 +99,16 @@ function getChangedLines(patch) {
 
 // ─── STEP C: Build comment body ───────────────────────────────────────
 function buildComment(vuln) {
-  const emoji = severityEmoji(vuln.severity)
-  const fixBlock = vuln.fix.before
-    ? `
-**Before:**
+  const emoji       = severityEmoji(vuln.severity)
+  const wasAutoFixed = fixPRResult.raised &&
+                       fixPRResult.fixedVulnIds.includes(vuln.id)
+
+  const fixBlock = wasAutoFixed
+    ? `> ✅ **This vulnerability was automatically fixed**
+> **Fix PR: [#${fixPRResult.fixPRNumber}](${fixPRResult.fixPRUrl})**
+> Review and merge the fix PR to resolve this.`
+    : vuln.fix.before
+      ? `**Before:**
 \`\`\`js
 ${vuln.fix.before}
 \`\`\`
@@ -98,12 +117,12 @@ ${vuln.fix.before}
 ${vuln.fix.after}
 \`\`\`
 > ${vuln.fix.explanation}`
-    : '_No auto-fix available_'
+      : '_No auto-fix available — manual fix required_'
 
   return `## ${emoji} CodeGuard — ${vuln.severity} \`${vuln.issueType}\`
 
-**ID:** \`${vuln.id}\`  
-**Detected by:** ${vuln.detectedBy.join(', ')}  
+**ID:** \`${vuln.id}\`
+**Detected by:** ${vuln.detectedBy.join(', ')}
 **Confidence:** ${vuln.confidenceLevel} (${vuln.confidenceScore}/100)
 
 ### 🔍 Explanation
@@ -112,11 +131,11 @@ ${vuln.explanation}
 ### 💣 Exploit Example
 ${vuln.exploitExample}
 
-### 🔧 Suggested Fix
+### 🔧 Fix
 ${fixBlock}
 
 ---
-<sub>🤖 Posted by [CodeGuard](https://github.com/${OWNER}/${REPO_NAME}) · ${vuln.autoFixable ? '✅ Auto-fix PR will be raised' : '🔨 Manual fix required'}</sub>`
+<sub>🤖 CodeGuard · ${wasAutoFixed ? `✅ Auto-fixed in [PR #${fixPRResult.fixPRNumber}](${fixPRResult.fixPRUrl})` : vuln.fix.autoFixable ? '⚠️ Fix match failed — manual fix required' : '🔨 Manual fix required'}</sub>`
 }
 
 // ─── STEP D: Post a single inline comment ─────────────────────────────

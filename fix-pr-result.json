@@ -1,0 +1,21 @@
+{
+  "raised": true,
+  "fixPRNumber": 5,
+  "fixPRUrl": "https://github.com/thabithapanneerselvam-RQ/POC_codeguard/pull/5",
+  "fixedCount": 9,
+  "fixedVulnIds": [
+    "CG-001",
+    "CG-004",
+    "CG-007",
+    "CG-010",
+    "CG-011",
+    "CG-012",
+    "CG-034",
+    "CG-035",
+    "CG-036"
+  ],
+  "skippedVulnIds": [
+    "CG-029",
+    "CG-008"
+  ]
+}

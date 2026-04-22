@@ -229,6 +229,8 @@ ${findingsText}
 
 Respond ONLY in this exact JSON array format with no extra text or markdown.
 IMPORTANT: All string values must be single-line. Replace any newlines in code with \\n. No literal line breaks inside JSON strings.
+CRITICAL FOR FIX: The "before" field must be copied VERBATIM from the CODE CONTEXT above.
+Do not paraphrase, reformat, or summarize it. Copy the exact characters, exact spacing, exact indentation.
 [
   {
     "finding_index": 1,
