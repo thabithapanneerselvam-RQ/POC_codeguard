@@ -16,49 +16,89 @@ jobs:
       security-events: write
       pull-requests: write
 
+    env:
+      GITLEAKS_VERSION: "8.18.0"
+      BEARER_VERSION: "1.45.0"
+
     steps:
       # ── 1. Checkout code ──
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── 2. Setup Node ──
+      # ── 2. Setup Node (with npm cache) ──
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
 
-      # ── 3. Install dependencies ──
+      # ── 3. Cache pip (Semgrep) ──
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-semgrep-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            pip-semgrep-${{ runner.os }}-
+
+      # ── 4. Cache Bearer binary ──
+      - name: Cache Bearer binary
+        id: cache-bearer
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/bearer
+          key: bearer-${{ runner.os }}-${{ env.BEARER_VERSION }}
+
+      # ── 5. Cache Gitleaks binary ──
+      - name: Cache Gitleaks binary
+        id: cache-gitleaks
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/gitleaks
+          key: gitleaks-${{ runner.os }}-${{ env.GITLEAKS_VERSION }}
+
+      # ── 6. Install dependencies ──
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # ── 4. Install Semgrep ──
+      # ── 7. Install Semgrep ──
       - name: Install Semgrep
         run: pip install semgrep
 
-      # ── 5. Install Bearer ──
+      # ── 8. Install Bearer (only if not cached) ──
       - name: Install Bearer
+        if: steps.cache-bearer.outputs.cache-hit != 'true'
         run: |
-          curl -sfL https://raw.githubusercontent.com/Bearer/bearer/main/contrib/install.sh | sh
-          sudo mv ./bin/bearer /usr/local/bin/bearer
+          mkdir -p ~/.local/bin
+          curl -sfL https://raw.githubusercontent.com/Bearer/bearer/main/contrib/install.sh \
+            | BEARER_INSTALL_DIR=~/.local/bin sh
 
-      # ── 6. Install Gitleaks ──
+      - name: Add Bearer to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # ── 9. Install Gitleaks (only if not cached) ──
       - name: Install Gitleaks
+        if: steps.cache-gitleaks.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz
-          tar -xzf gitleaks_8.18.0_linux_x64.tar.gz
-          sudo mv gitleaks /usr/local/bin/gitleaks
+          mkdir -p ~/.local/bin
+          wget -q https://github.com/gitleaks/gitleaks/releases/download/v${{ env.GITLEAKS_VERSION }}/gitleaks_${{ env.GITLEAKS_VERSION }}_linux_x64.tar.gz
+          tar -xzf gitleaks_${{ env.GITLEAKS_VERSION }}_linux_x64.tar.gz gitleaks
+          mv gitleaks ~/.local/bin/gitleaks
 
-      # ── 7. Run all scan layers ──
+      - name: Add Gitleaks to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # ── 10. Run all scan layers ──
       - name: Run CodeGuard Scan Layers
         run: node test-all-layers.js
 
-      # ── 8. Run CodeGuard AI Analysis ──
+      # ── 11. Run CodeGuard AI Analysis ──
       - name: Run CodeGuard AI Analysis
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node test-codeguard-local.js
 
-      # ── 9. Upload JSON report as artifact ──
+      # ── 12. Upload JSON report as artifact ──
       - name: Upload JSON Report
         uses: actions/upload-artifact@v4
         if: always()
@@ -66,19 +106,19 @@ jobs:
           name: codeguard-report-json
           path: codeguard-report.json
 
-      # ── 10. Upload SARIF to GitHub Security tab ──
+      # ── 13. Upload SARIF to GitHub Security tab ──
       - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: codeguard-report.sarif
 
-      # ── 11. Get PR number ──
+      # ── 14. Get PR number ──
       - name: Get PR Number
         if: github.event_name == 'pull_request'
         run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
-      # ── 12. Raise Auto-Fix PR ──
+      # ── 15. Raise Auto-Fix PR ──
       # Must run BEFORE post-pr-comments so fix-pr-result.json exists
       - name: Raise Auto-Fix PR
         if: github.event_name == 'pull_request'
@@ -89,7 +129,7 @@ jobs:
           SOURCE_BRANCH:     ${{ github.head_ref }}
         run: node raise-fix-pr.js
 
-      # ── 13. Post PR Comments ──
+      # ── 16. Post PR Comments ──
       - name: Post PR Comments
         if: github.event_name == 'pull_request'
         env:
