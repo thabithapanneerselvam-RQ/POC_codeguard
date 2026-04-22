@@ -25,6 +25,7 @@ Layer 3 — OSV Scanner  (dependency CVE scanning)
 
 Deduplication Engine
 (collapses duplicate findings across tools)
+
             │
             ▼
 
@@ -42,6 +43,7 @@ Auto Fix PR raised
 
 PR Comments posted
 (every vulnerability commented inline on the PR)
+
 
 
 **Setup**
@@ -77,6 +79,48 @@ git commit -m "add CodeGuard security scanning"
 git push
 CodeGuard will trigger automatically.
 
+
+**Integrating CodeGuard Into Your Own Application**
+
+**Follow these steps to add CodeGuard to any existing GitHub repository.**
+
+
+**Step 1 — Copy these files to your repo root**
+
+- test-all-layers.js
+
+- test-codeguard-local.js
+
+- raise-fix-pr.js
+
+- post-pr-comments.js
+
+- codeguard/scripts/osv-scan.js
+
+- .github/workflows/codeguard.yml
+
+
+**Step 2 — Add secret**
+
+Repo → Settings → Secrets → Actions
+
+Name:  GEMINI_API_KEY
+
+Value: your-gemini-key
+
+
+**Step 3 — Enable write permissions**
+
+Repo → Settings → Actions → General
+
+✅ Read and write permissions
+
+✅ Allow GitHub Actions to create and approve pull requests
+
+
+**Step 4 — Raise a PR**
+
+CodeGuard triggers automatically on every PR. No other configuration needed.
 
 
 
@@ -139,6 +183,7 @@ Full detailed report downloadable from Actions → your run → Artifacts → co
   ]
 }
 
+
 **Project Structure**
 
 ├── .github/
@@ -183,5 +228,7 @@ node test-all-layers.js
 
 node test-codeguard-local.js
 Reports will be written to codeguard-report.json and codeguard-report.sarif in your project root.
+
+
 
 **Note: raise-fix-pr.js and post-pr-comments.js require GitHub Actions environment variables and will not work locally.**
