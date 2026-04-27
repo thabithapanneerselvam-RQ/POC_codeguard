@@ -22,7 +22,10 @@ const axios = require('axios')
 const mongoose = require('mongoose')
 
 const helmet = require('helmet'); // Add this line at the top of your file
+const helmet = require('helmet'); // Add this line at the top of your file
 const app = express()
+app.disable('x-powered-by') // Disable the X-Powered-By header
+app.use(helmet()) // Use Helmet middleware to set security headers
 app.disable('x-powered-by') // Disable the X-Powered-By header
 app.use(helmet()) // Use Helmet middleware to set security headers
 app.use(express.json())
